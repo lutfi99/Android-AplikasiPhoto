@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_gravity="center_vertical" >
+
+    <TableRow
+        android:id="@+id/tableRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:id="@+id/imagePhotoProfile"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:onClick="ChangePhoto"
+            android:src="@drawable/ic_launcher" />
+
+        <TextView
+            android:id="@+id/textViewChangePhoto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:onClick="ChangePhoto"
+            android:text="Change Photo Profile?" />
+
+    </TableRow>
+        
+    <TableRow
+        android:id="@+id/tableRow1"
+        android:layout_width="match_parent"
+        android:layout_height="40dp" >
+
+        <EditText
+            android:id="@+id/editTextUsernameRegister"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="User Name" >
+            <requestFocus />
+        </EditText>
+
+    </TableRow>
+    
+    <TableRow
+        android:id="@+id/tableRow2"
+        android:layout_width="match_parent"
+        android:layout_height="40dp" >
+        
+        <EditText
+            android:id="@+id/editTextPasswordRegister"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPassword"
+            android:hint="Password" >
+        </EditText>
+        
+      </TableRow>
+      
+    <TableRow
+        android:id="@+id/tableRow3"
+        android:layout_width="match_parent"
+        android:layout_height="40dp" >
+        
+        <EditText
+            android:id="@+id/editTextNameRegister"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Name" >
+        </EditText>
+        
+      </TableRow>
+      
+    <TableRow
+        android:id="@+id/tableRow4"
+        android:layout_width="match_parent"
+        android:layout_height="40dp" >
+        
+        <EditText
+            android:id="@+id/editTextEmailRegister"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Email"
+            android:inputType="textEmailAddress" >
+
+        </EditText>
+        
+      </TableRow>
+      
+    <TableRow
+        android:id="@+id/tableRow5"
+        android:layout_width="match_parent"
+        android:layout_height="40dp" >
+        
+        <EditText
+            android:id="@+id/editTextPhoneRegister"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Phone"
+            android:inputType="phone" >
+
+        </EditText>
+        
+      </TableRow>
+      
+    <TableRow
+        android:id="@+id/tableRow6"
+        android:layout_width="match_parent"
+        android:layout_height="40dp" >
+        
+        <Button
+        android:id="@+id/buttonRegisterMasuk"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Register" />
+        
+      </TableRow>
+
+</LinearLayout>
