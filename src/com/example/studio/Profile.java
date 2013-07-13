@@ -9,9 +9,11 @@ import java.net.URL;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
@@ -27,6 +29,9 @@ public class Profile extends Activity {
 	Button buttonEditProfile;
 	LoginDataBaseAdapter loginDataBaseAdapter;
 	String getUserName, getNama;
+	
+	final int PIC_CROP = 2;
+	private Uri picUri;
 	
 	private static final int REQUEST_CODE = 1;
 	private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
@@ -120,6 +125,14 @@ public class Profile extends Activity {
 				intent.setType("image/*");
 				intent.setAction(Intent.ACTION_GET_CONTENT);
 				intent.addCategory(Intent.CATEGORY_OPENABLE);
+				
+				intent.putExtra("crop", "true");
+				intent.putExtra("aspectX", 1);
+				intent.putExtra("aspectY", 1);
+				intent.putExtra("outputX", 200);
+				intent.putExtra("outputY", 150);
+				//intent.putExtra("return-data", true);
+				
 				startActivityForResult(intent, REQUEST_CODE);
 				dialog.cancel();
 			}
@@ -169,7 +182,8 @@ public class Profile extends Activity {
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		InputStream stream = null;
-		if(requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK)
+		if(requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+			
 			try {
 				if(bitmap != null) {
 					bitmap.recycle();
@@ -183,11 +197,20 @@ public class Profile extends Activity {
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
-		
-		if(requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-			bitmap = (Bitmap) data.getExtras().get("data"); 
+
+		}
+		else if (requestCode == PIC_CROP && resultCode == Activity.RESULT_OK){
+			bitmap = (Bitmap) data.getExtras().get("data");
 			imageViewPhoto.setImageBitmap(bitmap);
 			savePhoto();
+		}
+		
+		if(requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+
+			crop();
+			/*bitmap = (Bitmap) data.getExtras().get("data");
+			imageViewPhoto.setImageBitmap(bitmap);
+			savePhoto();*/
 		}
 	}
 	
@@ -200,7 +223,27 @@ public class Profile extends Activity {
 		//save ke database
 		loginDataBaseAdapter.updatePhoto(getUserName, image);
 	}
-
+	
+	public void crop() {
+		try {
+			
+			Intent cropIntent = new Intent("com.android.camera.action.CROP");
+			cropIntent.setType("image/*");
+			cropIntent.setData(picUri);
+			    //set crop properties
+			cropIntent.putExtra("crop", "true");
+			cropIntent.putExtra("aspectX", 1);
+			cropIntent.putExtra("aspectY", 1);
+			cropIntent.putExtra("outputX", 256);
+			cropIntent.putExtra("outputY", 256);
+			cropIntent.putExtra("return-data", true);
+			startActivityForResult(cropIntent, PIC_CROP);
+			
+		} catch(ActivityNotFoundException e) {
+			Toast.makeText(getApplicationContext(), "Device doesn't support crop action!", Toast.LENGTH_LONG).show();
+		}
+	}
+	
 	/*public String nama(){
 		String nama;
 		nama = getNama;
