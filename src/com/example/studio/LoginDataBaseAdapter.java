@@ -107,6 +107,16 @@ public class LoginDataBaseAdapter {
 		db.update("LOGIN", updatedValues, where, new String[]{userName});
 	}
 	
+	public void updatePhoto(String userName, byte[] image) {
+		
+		ContentValues updatedValues = new ContentValues();
+		
+		updatedValues.put("IMAGE", image);
+		
+		String where="USERNAME=?";
+		db.update("LOGIN", updatedValues, where, new String[]{userName});
+	}
+	
 	public String getEmail(String email) {
 		Cursor cursor = db.query("LOGIN", null, " EMAIL=?", new String[]{email}, null, null, null);
 		//email tidak ada
