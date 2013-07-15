@@ -14,6 +14,7 @@ public class LoginDataBaseAdapter {
 	public static final int NAME_COLUMN = 1;
 	
 	static final String DATABASE_CREATE = "CREATE TABLE "+"LOGIN"+"("+"ID"+" INTEGER PRIMARY KEY AUTOINCREMENT,"+ "USERNAME TEXT NOT NULL,PASSWORD TEXT NOT NULL, NAME TEXT NOT NULL, EMAIL TEXT NOT NULL, PHONE TEXT NOT NULL, IMAGE BLOB NOT NULL);";
+	static final String PHOTO_CREATE = "CREATE TABLE "+"PHOTO"+"("+"ID"+" INTEGER PRIMARY KEY AUTOINCREMENT,"+ "USERNAME TEXT NOT NULL,IMAGE BLOB NOT NULL);";
 	
 	public SQLiteDatabase db;
 	
@@ -188,6 +189,21 @@ public class LoginDataBaseAdapter {
 		String email = cursor.getString(cursor.getColumnIndex("EMAIL"));
 		cursor.close();
 		return email;
+	}
+	
+	public void insertPhoto(String userName, byte[] image) {
+        
+		ContentValues newValues = new ContentValues();
+		
+		newValues.put("USERNAME", userName);
+		newValues.put("IMAGE", image);
+		
+		try {
+			db.insert("PHOTO", null, newValues);
+			Toast.makeText(context, "Succesfully", Toast.LENGTH_LONG).show();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/*public Cursor getProfile(String userName) {

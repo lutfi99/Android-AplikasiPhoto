@@ -33,11 +33,17 @@
             android:text="Edit Your Profile"
             android:layout_marginTop="5dp" />
     
-    <View
-        android:layout_height="2dip"
-        android:background="#FF0000"
-        android:layout_width="match_parent" />
+	    <View
+	        android:layout_height="2dip"
+	        android:background="#FF0000"
+	        android:layout_width="match_parent" />
         
+        <Button
+            android:id="@+id/buttonPhoto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Photo" />
+	
     </LinearLayout>
     
 </LinearLayout>

@@ -98,7 +98,7 @@ public class MainActivity extends Activity {
 					Bundle bundle = new Bundle();
 					bundle.putString("value_username", userName);
 					
-					Intent intentProfile = new Intent(getApplicationContext(),Profile.class);
+					Intent intentProfile= new Intent(getApplicationContext(),Profile.class);
 					intentProfile.putExtras(bundle);
 					//intentProfile.setClass(getApplicationContext(), Profile.class); 
 					startActivity(intentProfile);
