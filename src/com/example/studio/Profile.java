@@ -13,7 +13,6 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
@@ -29,9 +28,6 @@ public class Profile extends Activity {
 	Button buttonEditProfile;
 	LoginDataBaseAdapter loginDataBaseAdapter;
 	String getUserName, getNama;
-	
-	final int PIC_CROP = 2;
-	private Uri picUri;
 	
 	private static final int REQUEST_CODE = 1;
 	private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
@@ -110,6 +106,14 @@ public class Profile extends Activity {
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+				
+				intent.putExtra("crop", "true");
+				intent.putExtra("aspectX", 1);
+				intent.putExtra("aspectY", 1);
+				intent.putExtra("outputX", 256);
+				intent.putExtra("outputY", 256);
+				intent.putExtra("return-data", true);
+				
 				startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
 				dialog.cancel();
 			}
@@ -122,16 +126,16 @@ public class Profile extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent();
-				intent.setType("image/*");
 				intent.setAction(Intent.ACTION_GET_CONTENT);
 				intent.addCategory(Intent.CATEGORY_OPENABLE);
-				
+
+				intent.setType("image/*");
 				intent.putExtra("crop", "true");
 				intent.putExtra("aspectX", 1);
 				intent.putExtra("aspectY", 1);
-				intent.putExtra("outputX", 200);
-				intent.putExtra("outputY", 150);
-				//intent.putExtra("return-data", true);
+				intent.putExtra("outputX", 256);
+				intent.putExtra("outputY", 256);
+				intent.putExtra("return-data", true);
 				
 				startActivityForResult(intent, REQUEST_CODE);
 				dialog.cancel();
@@ -167,6 +171,8 @@ public class Profile extends Activity {
 						            } catch (IOException e) {
 						                e.printStackTrace();
 						            }
+						            
+						            
 						            imageViewPhoto.setImageBitmap(bitmap);
 						            savePhoto();
 						        	dialog.cancel();
@@ -181,10 +187,12 @@ public class Profile extends Activity {
 	
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		InputStream stream = null;
+		//InputStream stream = null;
 		if(requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-			
-			try {
+			bitmap = (Bitmap) data.getExtras().get("data");
+			imageViewPhoto.setImageBitmap(bitmap);
+			savePhoto();
+			/*try {
 				if(bitmap != null) {
 					bitmap.recycle();
 				}
@@ -196,21 +204,15 @@ public class Profile extends Activity {
 				
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
-			}
+			}*/
 
 		}
-		else if (requestCode == PIC_CROP && resultCode == Activity.RESULT_OK){
+		else
+		if(requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+			
 			bitmap = (Bitmap) data.getExtras().get("data");
 			imageViewPhoto.setImageBitmap(bitmap);
 			savePhoto();
-		}
-		
-		if(requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-
-			crop();
-			/*bitmap = (Bitmap) data.getExtras().get("data");
-			imageViewPhoto.setImageBitmap(bitmap);
-			savePhoto();*/
 		}
 	}
 	
@@ -224,10 +226,10 @@ public class Profile extends Activity {
 		loginDataBaseAdapter.updatePhoto(getUserName, image);
 	}
 	
-	public void crop() {
+	/*public void crop() {
 		try {
 			
-			Intent cropIntent = new Intent("com.android.camera.action.CROP");
+			Intent cropIntent = new Intent();
 			cropIntent.setType("image/*");
 			cropIntent.setData(picUri);
 			    //set crop properties
@@ -242,7 +244,7 @@ public class Profile extends Activity {
 		} catch(ActivityNotFoundException e) {
 			Toast.makeText(getApplicationContext(), "Device doesn't support crop action!", Toast.LENGTH_LONG).show();
 		}
-	}
+	}*/
 	
 	/*public String nama(){
 		String nama;
