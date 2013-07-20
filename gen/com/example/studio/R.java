@@ -1424,6 +1424,14 @@ theme attribute (in the form
 containing a value of this type.
          */
         public static final int aviary_verticalPadding=0x7f0100cb;
+        /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+         */
+        public static final int dialog_button=0x7f0100d8;
+        /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+         */
+        public static final int dialog_layout=0x7f0100d7;
         /**  default text appearances 
          <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
@@ -1861,7 +1869,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int ic_stickers=0x7f020087;
     }
     public static final class id {
-        public static final int action_settings=0x7f060087;
+        public static final int action_settings=0x7f06008a;
         public static final int aviary_bottom_line=0x7f060046;
         public static final int aviary_bottombar=0x7f060036;
         public static final int aviary_button=0x7f06002c;
@@ -1922,19 +1930,20 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int button2=0x7f06004b;
         public static final int button3=0x7f06004d;
         public static final int buttonChangePassword=0x7f060067;
-        public static final int buttonChooseLibrary=0x7f060080;
-        public static final int buttonEditProfile=0x7f060070;
-        public static final int buttonGetPhotoFacebook=0x7f06006d;
-        public static final int buttonPhoto=0x7f060071;
+        public static final int buttonChooseLibrary=0x7f060083;
+        public static final int buttonEditProfile=0x7f060072;
+        public static final int buttonGetPhotoFacebook=0x7f06006f;
+        public static final int buttonLogout=0x7f060074;
+        public static final int buttonPhoto=0x7f060073;
         public static final int buttonRegister=0x7f06000c;
-        public static final int buttonRegisterMasuk=0x7f06007e;
+        public static final int buttonRegisterMasuk=0x7f060081;
         public static final int buttonSaveChange=0x7f060068;
         public static final int buttonSaveChangePassword=0x7f060063;
         public static final int buttonShowPass=0x7f06006a;
         public static final int buttonSignIn=0x7f06000e;
-        public static final int buttonSignInMasuk=0x7f060084;
-        public static final int buttonTakePhoto=0x7f06007f;
-        public static final int buttonTakePhotoFacebook=0x7f060081;
+        public static final int buttonSignInMasuk=0x7f060087;
+        public static final int buttonTakePhoto=0x7f060082;
+        public static final int buttonTakePhotoFacebook=0x7f060084;
         public static final int checked=0x7f060001;
         public static final int divider=0x7f060025;
         public static final int down_top=0x7f060004;
@@ -1947,23 +1956,26 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int editTextChangePassword=0x7f060060;
         public static final int editTextEmailEdit=0x7f060065;
         public static final int editTextEmailForgot=0x7f060069;
-        public static final int editTextEmailRegister=0x7f06007a;
+        public static final int editTextEmailRegister=0x7f06007d;
         public static final int editTextNameEdit=0x7f060064;
-        public static final int editTextNameRegister=0x7f060078;
+        public static final int editTextNameRegister=0x7f06007b;
         public static final int editTextNewPassword=0x7f060061;
         public static final int editTextNewPasswordAgain=0x7f060062;
-        public static final int editTextPasswordRegister=0x7f060076;
-        public static final int editTextPasswordSignIn=0x7f060083;
+        public static final int editTextPasswordRegister=0x7f060079;
+        public static final int editTextPasswordSignIn=0x7f060086;
         public static final int editTextPhoneEdit=0x7f060066;
-        public static final int editTextPhoneRegister=0x7f06007c;
-        public static final int editTextUserFacebook=0x7f06006c;
-        public static final int editTextUserSignIn=0x7f060082;
-        public static final int editTextUsernameRegister=0x7f060075;
+        public static final int editTextPhoneRegister=0x7f06007f;
+        public static final int editTextUserFacebook=0x7f06006e;
+        public static final int editTextUserSignIn=0x7f060085;
+        public static final int editTextUsernameRegister=0x7f060078;
         public static final int feather_dialogs_container=0x7f060039;
+        public static final int get_sdk=0x7f06008b;
+        public static final int grid_view=0x7f06006c;
         public static final int horizontal=0x7f06000a;
         public static final int image=0x7f060015;
-        public static final int imagePhotoProfile=0x7f060073;
-        public static final int imageViewPhoto=0x7f06006e;
+        public static final int imagePhotoProfile=0x7f060076;
+        public static final int imageViewPhoto=0x7f060070;
+        public static final int image_container=0x7f06006d;
         public static final int image_loading_view=0x7f060038;
         public static final int imagegl=0x7f060018;
         public static final int main_content=0x7f060035;
@@ -1978,25 +1990,26 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int nonblank=0x7f060023;
         public static final int pressed=0x7f060000;
         public static final int selected=0x7f060002;
-        public static final int shadow=0x7f060086;
+        public static final int shadow=0x7f060089;
         public static final int size_preview=0x7f06005f;
-        public static final int tableRow=0x7f060072;
+        public static final int tableRow=0x7f060075;
         public static final int tableRow1=0x7f06000b;
         public static final int tableRow2=0x7f06000d;
-        public static final int tableRow3=0x7f060077;
-        public static final int tableRow4=0x7f060079;
-        public static final int tableRow5=0x7f06007b;
-        public static final int tableRow6=0x7f06007d;
+        public static final int tableRow3=0x7f06007a;
+        public static final int tableRow4=0x7f06007c;
+        public static final int tableRow5=0x7f06007e;
+        public static final int tableRow6=0x7f060080;
         public static final int text=0x7f060024;
         public static final int text1=0x7f06004a;
         public static final int text2=0x7f06004c;
         public static final int text3=0x7f06004e;
-        public static final int textViewChangePhoto=0x7f060074;
-        public static final int textViewForgotPass=0x7f060085;
+        public static final int textViewChangePhoto=0x7f060077;
+        public static final int textViewForgotPass=0x7f060088;
         public static final int textViewForgotPassword=0x7f06006b;
-        public static final int textViewUserName=0x7f06006f;
+        public static final int textViewUserName=0x7f060071;
         public static final int top_down=0x7f060003;
         public static final int vertical=0x7f060009;
+        public static final int view_documentation=0x7f06008c;
     }
     public static final class integer {
         /**  
@@ -2204,14 +2217,18 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int change_password=0x7f03003a;
         public static final int edit_profile=0x7f03003b;
         public static final int forgot_pass=0x7f03003c;
-        public static final int photo_facebook=0x7f03003d;
-        public static final int profile=0x7f03003e;
-        public static final int register=0x7f03003f;
-        public static final int select_photo=0x7f030040;
-        public static final int sign_in=0x7f030041;
+        public static final int grid=0x7f03003d;
+        public static final int image_info_layout=0x7f03003e;
+        public static final int main=0x7f03003f;
+        public static final int photo_facebook=0x7f030040;
+        public static final int profile=0x7f030041;
+        public static final int register=0x7f030042;
+        public static final int select_photo=0x7f030043;
+        public static final int sign_in=0x7f030044;
     }
     public static final class menu {
         public static final int main=0x7f0d0000;
+        public static final int main_menu=0x7f0d0001;
     }
     public static final class raw {
         public static final int aviary_default_effects=0x7f050000;
@@ -2229,6 +2246,8 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int border_name=0x7f0a005b;
         public static final int confirm_quit_message=0x7f0a0062;
         public static final int edit_profile_name=0x7f0a007a;
+        public static final int external_storage_na_message=0x7f0a007b;
+        public static final int external_storage_na_title=0x7f0a007c;
         public static final int feather_about_dialog_message=0x7f0a0010;
         public static final int feather_activity_not_found=0x7f0a0048;
         public static final int feather_adjust=0x7f0a004f;
@@ -2409,6 +2428,8 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         /**  aviary default theme 
          */
         public static final int AviaryTheme=0x7f0c007c;
+        public static final int AviaryTheme_Custom=0x7f0c0082;
+        public static final int AviaryTheme_Custom_Dialog=0x7f0c0083;
         /**  Custom dialogs style 
          */
         public static final int AviaryTheme_Dialog_Custom=0x7f0c007d;
@@ -2508,6 +2529,8 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int AviaryWidget_TextView_NavTitle=0x7f0c004e;
         public static final int AviaryWidget_TextView_Tool=0x7f0c004c;
         public static final int AviaryWidget_TiltShiftView=0x7f0c0003;
+        public static final int BaseTheme=0x7f0c0080;
+        public static final int BaseTheme_Impl=0x7f0c0081;
     }
     public static final class styleable {
         /** Attributes that can be used with a AviaryAdjustImageView.
@@ -4719,6 +4742,41 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           @attr name android:aviary_indicatorId
         */
         public static final int AviaryWorkspaceIndicator_aviary_indicatorId = 0;
+        /** Attributes that can be used with a FeatherDefaultTheme.
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #FeatherDefaultTheme_dialog_button com.example.studio:dialog_button}</code></td><td></td></tr>
+           <tr><td><code>{@link #FeatherDefaultTheme_dialog_layout com.example.studio:dialog_layout}</code></td><td></td></tr>
+           </table>
+           @see #FeatherDefaultTheme_dialog_button
+           @see #FeatherDefaultTheme_dialog_layout
+         */
+        public static final int[] FeatherDefaultTheme = {
+            0x7f0100d7, 0x7f0100d8
+        };
+        /**
+          <p>This symbol is the offset where the {@link com.example.studio.R.attr#dialog_button}
+          attribute's value can be found in the {@link #FeatherDefaultTheme} array.
+
+
+          <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+          @attr name android:dialog_button
+        */
+        public static final int FeatherDefaultTheme_dialog_button = 1;
+        /**
+          <p>This symbol is the offset where the {@link com.example.studio.R.attr#dialog_layout}
+          attribute's value can be found in the {@link #FeatherDefaultTheme} array.
+
+
+          <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+          @attr name android:dialog_layout
+        */
+        public static final int FeatherDefaultTheme_dialog_layout = 0;
         /** Attributes that can be used with a Theme.
            <p>Includes the following attributes:</p>
            <table>

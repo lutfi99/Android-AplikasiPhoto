@@ -1,8 +1,9 @@
 package com.example.studio;
 
+import java.util.HashMap;
+
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -17,12 +18,19 @@ public class MainActivity extends Activity {
 	Button buttonRegister, buttonSignIn;
 	EditText editTextUserSignIn, editTextPasswordSignIn;
 	LoginDataBaseAdapter loginDataBaseAdapter;
+	SessionManager session;
+	String name, userName, password;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
+		// Session Manager
+        session = new SessionManager(getApplicationContext());
+
+		session.checkLogin();
+       
 		loginDataBaseAdapter = new LoginDataBaseAdapter(this);
 		loginDataBaseAdapter = loginDataBaseAdapter.open();
 		
@@ -86,23 +94,33 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				//ambil username dan pass
-				String userName = editTextUserSignIn.getText().toString();
-				String password = editTextPasswordSignIn.getText().toString();
+				userName = editTextUserSignIn.getText().toString();
+				password = editTextPasswordSignIn.getText().toString();
 				
 				//cocokkan pass dari database
 				String storedPassword = loginDataBaseAdapter.getSingleEntry(userName);
+				
+				session.createLoginSession(userName, password);
+				
+				// get user data from session
+		        HashMap<String, String> user = session.getUserDetails();
+		        
+		        // name
+		        name = user.get(SessionManager.KEY_NAME);
+		        
 				
 				if(password.equals(storedPassword)){
 					Toast.makeText(MainActivity.this, "Login Successfull", Toast.LENGTH_SHORT).show();
 					
 					Bundle bundle = new Bundle();
-					bundle.putString("value_username", userName);
+					bundle.putString("value_username", name);
 					
 					Intent intentProfile= new Intent(getApplicationContext(),Profile.class);
 					intentProfile.putExtras(bundle);
 					//intentProfile.setClass(getApplicationContext(), Profile.class); 
 					startActivity(intentProfile);
 					dialog.dismiss();
+					finish();
 				}
 				else {
 					Toast.makeText(MainActivity.this, "Username or Password does not match", Toast.LENGTH_SHORT).show();

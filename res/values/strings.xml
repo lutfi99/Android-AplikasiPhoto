@@ -7,5 +7,6 @@
     <string name="register_name">Register</string>
     <string name="profile_name">Profile</string>
     <string name="edit_profile_name">Edit Profile</string>
-
+	<string name="external_storage_na_message">errroorr</string>
+	<string name="external_storage_na_title">no title</string>
 </resources>
