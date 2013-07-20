@@ -8,12 +8,12 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
-import java.util.HashMap;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnClickListener;
@@ -72,6 +72,8 @@ public class Profile extends Activity {
 	LoginDataBaseAdapter loginDataBaseAdapter;
 	String getUserName, getNama;
 	ImageView mImage;
+	File photo;
+	Uri u;
 	
 	SessionManager session;
 	
@@ -79,6 +81,7 @@ public class Profile extends Activity {
 	private static final int PHOTO_REQUEST_CODE = 2;
 	private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 99;
 	private static final int ACTION_REQUEST_GALLERY = 88;
+	private static final int PHOTO_FEATHER = 5;
 	private Bitmap bitmap;
 	
 	Uri mImageUri;
@@ -523,6 +526,34 @@ public class Profile extends Activity {
 		}
 		else
 		if(requestCode == PHOTO_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+			u = Uri.fromFile(photo);
+			
+			if ( !isExternalStorageAvilable() ) {
+				showDialog( EXTERNAL_STORAGE_UNAVAILABLE );
+				return;
+			}
+
+			File file = getNextFileName();
+			
+			if ( null != file ) {
+				mOutputFilePath = file.getAbsolutePath();
+			} 
+			
+			Intent newIntent = new Intent( this, FeatherActivity.class );
+			newIntent.setData(u);
+			newIntent.putExtra( Constants.EXTRA_OUTPUT, Uri.parse( "file://" + mOutputFilePath ) );
+			newIntent.putExtra( Constants.EXTRA_OUTPUT_FORMAT, Bitmap.CompressFormat.JPEG.name() );
+			newIntent.putExtra( Constants.EXTRA_OUTPUT_QUALITY, 90 );
+			
+			final DisplayMetrics metrics = new DisplayMetrics();
+			getWindowManager().getDefaultDisplay().getMetrics( metrics );
+			int max_size = Math.max( metrics.widthPixels, metrics.heightPixels );
+			max_size = (int) ( (float) max_size / 1.2f );
+			
+			newIntent.putExtra( Constants.EXTRA_MAX_IMAGE_SIZE, max_size );
+			newIntent.putExtra( Constants.EXTRA_IN_SAVE_ON_NO_CHANGES, true );
+			startActivityForResult( newIntent, PHOTO_FEATHER );
+
 
 			//DownloadAsync task = new DownloadAsync();
 			//task.execute( data.getData() );
@@ -531,12 +562,12 @@ public class Profile extends Activity {
 			//Uri uri = mImageUri;
 			//setImageURI( uri, bitmap );
 
-			Uri uri = data.getData();
-			startFeather( uri );
+			//Uri uri = data.getData();
+			//startFeather( uri );
 			//loadAsync( data.getData() );
-				//bitmap = (Bitmap) data.getExtras().get("data");
-				//mImage.setImageBitmap(bitmap);
-				//savePhotoDBPhoto();
+				/*bitmap = (Bitmap) data.getExtras().get("data");
+				mImage.setImageBitmap(bitmap);
+				savePhotoDBPhoto();*/
 		}
 		else if(requestCode == ACTION_REQUEST_FEATHER && resultCode == Activity.RESULT_OK) {
 			boolean changed = true;
@@ -579,6 +610,31 @@ public class Profile extends Activity {
 		else if(requestCode == ACTION_REQUEST_GALLERY && resultCode == Activity.RESULT_OK){
 			// user chose an image from the gallery
 			loadAsync( data.getData() );
+		}else if(requestCode == PHOTO_FEATHER && resultCode == Activity.RESULT_OK){
+			// user chose an image from the gallery
+			/*bitmap = (Bitmap) data.getExtras().get("data");
+			mImage.setImageBitmap(bitmap);
+			savePhotoDBPhoto();*/
+			
+	            Uri selectedImage = u;
+	            getContentResolver().notifyChange(selectedImage, null);
+	            ContentResolver cr = getContentResolver();
+	            Bitmap bitmap;
+	            try {
+	                 bitmap = android.provider.MediaStore.Images.Media
+	                 .getBitmap(cr, selectedImage);
+
+	                 mImage.setImageBitmap(bitmap);
+	                 savePhotoDBPhoto();
+	                 
+	                Toast.makeText(this, selectedImage.toString(),
+	                        Toast.LENGTH_LONG).show();
+	            } catch (Exception e) {
+	                Toast.makeText(this, "Failed to load", Toast.LENGTH_SHORT)
+	                        .show();
+	            }
+	        
+			
 		}
 	}
 	
@@ -638,8 +694,8 @@ public class Profile extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-				
+				//Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+				Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
 				/*intent.putExtra("crop", "true");
 				intent.putExtra("aspectX", 1);
 				intent.putExtra("aspectY", 1);
@@ -647,8 +703,10 @@ public class Profile extends Activity {
 				intent.putExtra("outputY", 256);
 				intent.putExtra("return-data", true);*/
 
-				intent.setData(mImageUri);
-
+				photo = new File(Environment.getExternalStorageDirectory(),  "Pic.jpg");
+			    intent.putExtra(MediaStore.EXTRA_OUTPUT,
+			            Uri.fromFile(photo));
+			    
 				startActivityForResult(intent, PHOTO_REQUEST_CODE);
 				dialog.cancel();
 			}
