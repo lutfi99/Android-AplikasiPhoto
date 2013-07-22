@@ -64,30 +64,15 @@
             android:label="@string/edit_profile_name"
             android:screenOrientation="portrait" />
         
+        <activity
+            android:name=".Timeline"
+            android:label="@string/edit_profile_name"
+            android:screenOrientation="portrait" />
         
         <activity
-            android:name=".aviary"
-            android:label="@string/app_name"
-            android:screenOrientation="unspecified" >
-
-
-            <!-- filters to allow this app to receive image intents from the system -->
-            <intent-filter>
-                <action android:name="android.intent.action.CHOOSER" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <data android:mimeType="image/*" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.SEND" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <data android:mimeType="image/*" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <data android:mimeType="image/*" />
-            </intent-filter>
-        </activity>
+            android:name=".TimelineActivity"
+            android:label="@string/edit_profile_name"
+            android:screenOrientation="portrait" />
         
         <!-- feather activity must be defined here -->
         <activity

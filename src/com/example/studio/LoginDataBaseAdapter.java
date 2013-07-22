@@ -1,5 +1,7 @@
 package com.example.studio;
 
+import java.util.ArrayList;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -12,9 +14,12 @@ public class LoginDataBaseAdapter {
 	static final String DATABASE_NAME = "login.db";
 	static final int DATABASE_VERSION = 1;
 	public static final int NAME_COLUMN = 1;
+	//public static final String IMAGE_COLUMN = "IMAGE";
+	public static final String USERNAME_COLUMN = "USERNAME";
+	//public static final String NAMA_TABLE_PHOTO = "PHOTO";
 	
 	static final String DATABASE_CREATE = "CREATE TABLE "+"LOGIN"+"("+"ID"+" INTEGER PRIMARY KEY AUTOINCREMENT,"+ "USERNAME TEXT NOT NULL,PASSWORD TEXT NOT NULL, NAME TEXT NOT NULL, EMAIL TEXT NOT NULL, PHONE TEXT NOT NULL, IMAGE BLOB NOT NULL);";
-	static final String PHOTO_CREATE = "CREATE TABLE "+"PHOTO"+"("+"ID"+" INTEGER PRIMARY KEY AUTOINCREMENT,"+ "USERNAME TEXT NOT NULL,IMAGE BLOB NOT NULL);";
+	static final String PHOTO_CREATE = "CREATE TABLE "+"PHOTO"+"("+"ID"+" INTEGER PRIMARY KEY AUTOINCREMENT, "+ "USERNAME TEXT NOT NULL,IMAGE BLOB NOT NULL);";
 	
 	public SQLiteDatabase db;
 	
@@ -191,6 +196,27 @@ public class LoginDataBaseAdapter {
 		return email;
 	}
 	
+	public ArrayList<byte[]> getAllPhotos() {
+		Cursor cursor = db.query("PHOTO", new String[]{"USERNAME", "IMAGE"}, null, null, null, null, null);
+		cursor.moveToNext();
+		//cursor.moveToFirst();
+		byte[] image = cursor.getBlob(cursor.getColumnIndex("IMAGE"));
+		ArrayList<byte[]>  storeImageByte = new ArrayList<byte[]>();
+		storeImageByte.add(image);
+		return storeImageByte;
+		
+	}
+	
+	public Cursor test() {
+		Cursor cursor = db.query("LOGIN", new String[]{"USERNAME"}, null, null, null, null, null);
+		return cursor;
+	}
+	
+	public String get(Cursor c){
+		String a = c.getString(c.getColumnIndex("USERNAME"));
+		return a;
+	}
+
 	public void insertPhoto(String userName, byte[] image) {
         
 		ContentValues newValues = new ContentValues();

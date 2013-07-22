@@ -44,6 +44,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Photo" />
+
+        <Button
+            android:id="@+id/buttonTimeline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Timeline" />
         
         <Button
             android:id="@+id/buttonLogout"

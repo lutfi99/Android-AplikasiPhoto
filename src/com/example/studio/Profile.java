@@ -68,7 +68,7 @@ import com.aviary.android.feather.library.utils.SystemUtils;
 public class Profile extends Activity {
 	ImageView imageViewPhoto;
 	TextView textViewUserName;
-	Button buttonEditProfile, buttonPhoto, buttonLogout;
+	Button buttonEditProfile, buttonPhoto, buttonLogout, buttonTimeline;
 	LoginDataBaseAdapter loginDataBaseAdapter;
 	String getUserName, getNama;
 	ImageView mImage;
@@ -118,9 +118,19 @@ public class Profile extends Activity {
 		textViewUserName = (TextView) findViewById(R.id.textViewUserName);
 		buttonEditProfile = (Button) findViewById(R.id.buttonEditProfile);
 		buttonPhoto = (Button) findViewById(R.id.buttonPhoto);
+		
+		buttonTimeline = (Button) findViewById(R.id.buttonTimeline);
+		buttonTimeline.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				Intent intentTimeline = new Intent(getApplicationContext(),Timeline.class);
+				startActivity(intentTimeline);
+			}
+		});
 
 		buttonLogout = (Button) findViewById(R.id.buttonLogout);
-		
 		buttonLogout.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -541,6 +551,7 @@ public class Profile extends Activity {
 			
 			Intent newIntent = new Intent( this, FeatherActivity.class );
 			newIntent.setData(u);
+			
 			newIntent.putExtra( Constants.EXTRA_OUTPUT, Uri.parse( "file://" + mOutputFilePath ) );
 			newIntent.putExtra( Constants.EXTRA_OUTPUT_FORMAT, Bitmap.CompressFormat.JPEG.name() );
 			newIntent.putExtra( Constants.EXTRA_OUTPUT_QUALITY, 90 );
@@ -552,89 +563,54 @@ public class Profile extends Activity {
 			
 			newIntent.putExtra( Constants.EXTRA_MAX_IMAGE_SIZE, max_size );
 			newIntent.putExtra( Constants.EXTRA_IN_SAVE_ON_NO_CHANGES, true );
+			
 			startActivityForResult( newIntent, PHOTO_FEATHER );
-
-
-			//DownloadAsync task = new DownloadAsync();
-			//task.execute( data.getData() );
-			
-			//bitmap = (Bitmap) data.getExtras().get("data");
-			//Uri uri = mImageUri;
-			//setImageURI( uri, bitmap );
-
-			//Uri uri = data.getData();
-			//startFeather( uri );
-			//loadAsync( data.getData() );
-				/*bitmap = (Bitmap) data.getExtras().get("data");
-				mImage.setImageBitmap(bitmap);
-				savePhotoDBPhoto();*/
-		}
-		else if(requestCode == ACTION_REQUEST_FEATHER && resultCode == Activity.RESULT_OK) {
-			boolean changed = true;
-			
-			if( null != data ) {
-				Bundle extra = data.getExtras();
-				if( null != extra ) {
-					// image was changed by the user?
-					changed = extra.getBoolean( Constants.EXTRA_OUT_BITMAP_CHANGED );
-				}
-			}
-			
-			if( !changed ) {
-				Log.w( LOG_TAG, "User did not modify the image, but just clicked on 'Done' button" );
-			}
-			
-			// send a notification to the media scanner
-			updateMedia( mOutputFilePath );
-			
-			// update the preview with the result
-			loadAsync( data.getData() );
-			onSaveCompleted( mOutputFilePath );
-			mOutputFilePath = null;
-		}else if ( resultCode == RESULT_CANCELED ) {
-			switch ( requestCode ) {
-			case ACTION_REQUEST_FEATHER:
-
-				// feather was cancelled without saving.
-				// we need to delete the entire session
-				if ( null != mSessionId ) deleteSession( mSessionId );
-
-				// delete the result file, if exists
-				if ( mOutputFilePath != null ) {
-					deleteFileNoThrow( mOutputFilePath );
-					mOutputFilePath = null;
-				}
-				break;
-			}
 		}
 		else if(requestCode == ACTION_REQUEST_GALLERY && resultCode == Activity.RESULT_OK){
-			// user chose an image from the gallery
-			loadAsync( data.getData() );
-		}else if(requestCode == PHOTO_FEATHER && resultCode == Activity.RESULT_OK){
-			// user chose an image from the gallery
-			/*bitmap = (Bitmap) data.getExtras().get("data");
-			mImage.setImageBitmap(bitmap);
-			savePhotoDBPhoto();*/
-			
-	            Uri selectedImage = u;
-	            getContentResolver().notifyChange(selectedImage, null);
-	            ContentResolver cr = getContentResolver();
-	            Bitmap bitmap;
-	            try {
-	                 bitmap = android.provider.MediaStore.Images.Media
-	                 .getBitmap(cr, selectedImage);
+			u = data.getData();
 
-	                 mImage.setImageBitmap(bitmap);
-	                 savePhotoDBPhoto();
-	                 
-	                Toast.makeText(this, selectedImage.toString(),
-	                        Toast.LENGTH_LONG).show();
-	            } catch (Exception e) {
-	                Toast.makeText(this, "Failed to load", Toast.LENGTH_SHORT)
-	                        .show();
-	            }
-	        
+			if ( !isExternalStorageAvilable() ) {
+				showDialog( EXTERNAL_STORAGE_UNAVAILABLE );
+				return;
+			}
+
+			File file = getNextFileName();
 			
+			if ( null != file ) {
+				mOutputFilePath = file.getAbsolutePath();
+			} 
+			
+			Intent newIntent = new Intent( this, FeatherActivity.class );
+			newIntent.setData(u);
+			newIntent.putExtra( Constants.EXTRA_OUTPUT, Uri.parse( "file://" + mOutputFilePath ) );
+			newIntent.putExtra( Constants.EXTRA_OUTPUT_FORMAT, Bitmap.CompressFormat.JPEG.name() );
+			newIntent.putExtra( Constants.EXTRA_OUTPUT_QUALITY, 90 );
+			
+			final DisplayMetrics metrics = new DisplayMetrics();
+			getWindowManager().getDefaultDisplay().getMetrics( metrics );
+			int max_size = Math.max( metrics.widthPixels, metrics.heightPixels );
+			max_size = (int) ( (float) max_size / 1.2f );
+			
+			newIntent.putExtra( Constants.EXTRA_MAX_IMAGE_SIZE, max_size );
+			newIntent.putExtra( Constants.EXTRA_IN_SAVE_ON_NO_CHANGES, true );
+			
+			startActivityForResult( newIntent, PHOTO_FEATHER );
+			
+		}else if(requestCode == PHOTO_FEATHER && resultCode == Activity.RESULT_OK){
+			
+			u = data.getData();
+            try {
+                bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(u));
+                
+                mImage.setImageBitmap(bitmap);
+                
+                savePhotoDBPhoto();
+                
+                Toast.makeText(getApplicationContext(), "Photo is saved", Toast.LENGTH_LONG).show();
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
 		}
 	}
 	
@@ -694,19 +670,11 @@ public class Profile extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				//Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-				Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-				/*intent.putExtra("crop", "true");
-				intent.putExtra("aspectX", 1);
-				intent.putExtra("aspectY", 1);
-				intent.putExtra("outputX", 256);
-				intent.putExtra("outputY", 256);
-				intent.putExtra("return-data", true);*/
+				Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
 				photo = new File(Environment.getExternalStorageDirectory(),  "Pic.jpg");
 			    intent.putExtra(MediaStore.EXTRA_OUTPUT,
 			            Uri.fromFile(photo));
-			    
 				startActivityForResult(intent, PHOTO_REQUEST_CODE);
 				dialog.cancel();
 			}
@@ -718,27 +686,21 @@ public class Profile extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				/*Intent intent = new Intent();
+				Intent intent = new Intent();
 				intent.setAction(Intent.ACTION_GET_CONTENT);
 				intent.addCategory(Intent.CATEGORY_OPENABLE);
 
 				intent.setType("image/*");
-				intent.putExtra("crop", "true");
+				/*intent.putExtra("crop", "true");
 				intent.putExtra("aspectX", 1);
 				intent.putExtra("aspectY", 1);
 				intent.putExtra("outputX", 256);
 				intent.putExtra("outputY", 256);
-				
-				//intent.setClass(getApplicationContext(), FeatherActivity.class);
+				intent.putExtra("circleCrop", "true");
 
-				intent.putExtra("return-data", true);
-				startActivityForResult(intent, PHOTO_REQUEST_CODE);
-				dialog.cancel();*/
-				Intent intent = new Intent( Intent.ACTION_GET_CONTENT );
-				intent.setType( "image/*" );
-				Intent chooser = Intent.createChooser( intent, "Choose a Picture" );
-				startActivityForResult( chooser, ACTION_REQUEST_GALLERY );
-				//pickFromGallery();
+				intent.putExtra("return-data", true);*/
+
+				startActivityForResult( intent, ACTION_REQUEST_GALLERY );
 				dialog.cancel();
 			}
 		});
