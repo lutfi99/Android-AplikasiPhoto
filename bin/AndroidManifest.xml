@@ -74,6 +74,21 @@
             android:label="@string/edit_profile_name"
             android:screenOrientation="portrait" />
         
+        <activity
+            android:name=".Photo"
+            android:label="Photo"
+            android:screenOrientation="portrait" />
+        
+        <activity
+            android:name=".Tab"
+            android:label="41 Studio"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".GridActivity"
+            android:label="41 Studio"
+            android:screenOrientation="portrait" />
+        
+        
         <!-- feather activity must be defined here -->
         <activity
             android:name="com.aviary.android.feather.FeatherActivity"

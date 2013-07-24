@@ -2,6 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical" >
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="110dp"
 	android:id="@+id/image_container"
     android:orientation="horizontal" >
     
@@ -33,41 +37,33 @@
             android:layout_height="45dp"
             android:text="Edit Your Profile"
             android:layout_marginTop="5dp" />
+
+    </LinearLayout>
     
-	    <View
+</LinearLayout>
+
+	<View
 	        android:layout_height="2dip"
 	        android:background="#FF0000"
 	        android:layout_width="match_parent" />
-        
-        <Button
-            android:id="@+id/buttonPhoto"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Photo" />
+	
+<GridView 
+    android:id="@+id/grid_view"
+    android:layout_width="match_parent"
+    android:layout_height="250dp"
+    android:numColumns="auto_fit"
+    android:columnWidth="90dp"
+    android:horizontalSpacing="10dp"
+    android:verticalSpacing="10dp"
+    android:gravity="center"
+    android:stretchMode="columnWidth" >
+</GridView>
 
-        <Button
-            android:id="@+id/buttonTimeline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Timeline" />
-        
-        <Button
-            android:id="@+id/buttonLogout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Logout" />
-	
-		<LinearLayout
-	    	android:layout_width="match_parent"
-    		android:layout_height="wrap_content"
-    		android:orientation="horizontal" >
-	
-   		 <ImageView
-            android:id="@+id/image"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:padding="5dp"/>
-		</LinearLayout>
-    </LinearLayout>
-    
+	<Button
+	    android:id="@+id/buttonLogout"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_gravity="center"
+	    android:text="Logout" />
+
 </LinearLayout>

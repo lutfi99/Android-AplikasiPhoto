@@ -115,9 +115,8 @@ public class MainActivity extends Activity {
 					Bundle bundle = new Bundle();
 					bundle.putString("value_username", name);
 					
-					Intent intentProfile= new Intent(getApplicationContext(),Profile.class);
-					intentProfile.putExtras(bundle);
-					//intentProfile.setClass(getApplicationContext(), Profile.class); 
+					Intent intentProfile= new Intent(getApplicationContext(),Tab.class);
+					intentProfile.putExtras(bundle); 
 					startActivity(intentProfile);
 					dialog.dismiss();
 					finish();
@@ -136,13 +135,5 @@ public class MainActivity extends Activity {
 		//tutup database
 		loginDataBaseAdapter.close();
 		finish();
-	}
-	
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
 	}
 }

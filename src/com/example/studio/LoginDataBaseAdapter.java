@@ -19,7 +19,7 @@ public class LoginDataBaseAdapter {
 	//public static final String NAMA_TABLE_PHOTO = "PHOTO";
 	
 	static final String DATABASE_CREATE = "CREATE TABLE "+"LOGIN"+"("+"ID"+" INTEGER PRIMARY KEY AUTOINCREMENT,"+ "USERNAME TEXT NOT NULL,PASSWORD TEXT NOT NULL, NAME TEXT NOT NULL, EMAIL TEXT NOT NULL, PHONE TEXT NOT NULL, IMAGE BLOB NOT NULL);";
-	static final String PHOTO_CREATE = "CREATE TABLE "+"PHOTO"+"("+"ID"+" INTEGER PRIMARY KEY AUTOINCREMENT, "+ "USERNAME TEXT NOT NULL,IMAGE BLOB NOT NULL);";
+	static final String PHOTO_CREATE = "CREATE TABLE "+"PHOTO"+"("+"ID"+" INTEGER PRIMARY KEY AUTOINCREMENT, "+ "USERNAME TEXT NOT NULL,IMAGE TEXT NOT NULL);";
 	
 	public SQLiteDatabase db;
 	
@@ -208,16 +208,16 @@ public class LoginDataBaseAdapter {
 	}
 	
 	public Cursor test() {
-		Cursor cursor = db.query("LOGIN", new String[]{"USERNAME"}, null, null, null, null, null);
+		Cursor cursor = db.query("PHOTO", new String[]{"ID", "USERNAME", "IMAGE"}, null, null, null, null, null);
 		return cursor;
 	}
 	
-	public String get(Cursor c){
-		String a = c.getString(c.getColumnIndex("USERNAME"));
-		return a;
+	public Cursor grid(String userName) {
+		Cursor cursor = db.query("PHOTO", new String[]{"ID", "USERNAME", "IMAGE"}, " USERNAME=?", new String[]{userName}, null, null, null);
+		return cursor;
 	}
-
-	public void insertPhoto(String userName, byte[] image) {
+	
+	public void insertPhoto(String userName, String image) {
         
 		ContentValues newValues = new ContentValues();
 		

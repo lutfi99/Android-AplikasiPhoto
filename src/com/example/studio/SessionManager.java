@@ -78,7 +78,7 @@ public class SessionManager {
 			Bundle bundle = new Bundle();
 			bundle.putString("value_username", n);
 			// user is logged in
-			Intent i = new Intent(_context, Profile.class);
+			Intent i = new Intent(_context, Tab.class);
 
 			i.putExtras(bundle);
 			// Closing all the Activities

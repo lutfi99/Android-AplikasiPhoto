@@ -1,38 +1,119 @@
 package com.example.studio;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.annotation.SuppressLint;
-import android.app.Activity;
+import android.app.ListActivity;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
+import android.util.Log;
 
 @SuppressLint("NewApi")
-public class Timeline extends Activity {
+public class Timeline extends ListActivity {
 
-	
-	SimpleCursorAdapter adapter;
+	private static final String E = null;
+	LoginDataBaseAdapter loginDataBaseAdapter;
 	Cursor cursor;
-	
-	@SuppressWarnings("deprecation")
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.list);
+	ListPhoto list;
+	List<ListPhoto> image;
+	AdapterCustomTimeline adapter;
+
+	public void onCreate(Bundle icicle) {
+		super.onCreate(icicle);
+		setContentView(R.layout.list_view);
+
+		loginDataBaseAdapter = new LoginDataBaseAdapter(this);
+		loginDataBaseAdapter = loginDataBaseAdapter.open();
+
+		cursor = loginDataBaseAdapter.test();
 		
-		LoginDataBaseAdapter db = new LoginDataBaseAdapter(this);
-		db.open();
+		/*List<String> txt = new ArrayList<String>();
+		if (cursor.getCount() > 0) {
+
+			for(int i=0;i<cursor.getCount();i++){
+				cursor.moveToNext();
+				txt.add(cursor.getString(1));
+			}
+			
+		}*/
+		/*ArrayList<Map<String, String>> list = buildData();
+		String[] from = {"user", "id"};
+		int[] to = {R.id.textListView, R.id.imageListView};
 		
-		ListView list = (ListView) findViewById(R.id.list);
-		cursor = db.test();
-	    startManagingCursor(cursor); 
+		SimpleAdapter adapter = new SimpleAdapter(this, list, R.layout.list_item_view, from, to);*/
 		
-		adapter = new SimpleCursorAdapter(this,
-				R.layout.list_item_view,
-				cursor,
-				new String[]{"NAME"},
-				new int[] {R.id.textListView});
-		list.setAdapter(adapter);
+		/*SimpleCursorAdapter adapter = new SimpleCursorAdapter(this,
+				R.layout.list_item_view, cursor,
+				from, to);*/
 		
+		//setListAdapter(adapter);
+		
+		//dataAdapter = new CustomCursorAdapter(this, cursor, 0);
+	    //ListView listview = (ListView) findViewById(R.id.list);
+	   // listview.setAdapter(dataAdapter);
+		
+//		cursor.moveToFirst();
+//		byte[] byteImg = cursor.getBlob(cursor.getColumnIndex("IMAGE"));
+		image = new ArrayList<ListPhoto>();
+		
+		if (cursor.getCount() > 0) {
+
+			for(int i=0;i<cursor.getCount();i++){
+				cursor.moveToNext();
+				list = new ListPhoto();
+				//Bitmap bm = BitmapFactory.decodeByteArray(byteImg, 0, byteImg.length);
+				list.setImage(cursor.getString(2));
+				list.setUser(cursor.getString(1));
+				image.add(0, list);
+				//image.add(bm);
+			}
+			
+		}
+		adapter = new AdapterCustomTimeline(this, R.layout.list_item_timeline, R.id.imageListView, image);
+		setListAdapter(adapter); 
+		
+		adapter.notifyDataSetChanged();
+		
+		/*		startManagingCursor(cursor);
+
+		SimpleCursorAdapter adapter = new SimpleCursorAdapter(this,
+				R.layout.list_item_view, cursor,
+				new String[] {cursor.getString(cursor.getColumnIndex("USERNAME"))}, new int[] { R.id.textListView });*/
 	}
+
+//	private ArrayList<Map<String, String>> buildData() {
+//		//cursor.moveToFirst();
+//		//byte[] byteImg = cursor.getBlob(cursor.getColumnIndex("IMAGE"));
+//		ArrayList<Map<String, String>> list = new ArrayList<Map<String, String>>();
+//		if (cursor.getCount() > 0) {
+//
+//			for(int i=0;i<cursor.getCount();i++){
+//				cursor.moveToNext();
+//				//Bitmap bm = BitmapFactory.decodeByteArray(byteImg, 0, byteImg.length);
+//				list.add(putData(cursor.getString(1), cursor.getString(0)));
+//			}
+//		}
+//		return list;
+//	}
+//
+//
+//	private HashMap<String, String> putData(String user, String id) {
+//		HashMap<String, String> item = new HashMap<String, String>();
+//		item.put("user", user);
+//		
+//		item.put("id", id);
+//		return item;
+//	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		Log.d("Lutfi", "resumeee");
+		
+		cursor = loginDataBaseAdapter.test();
+		cursor.moveToNext();
+		adapter.notifyDataSetChanged();
+	}
+	
 }

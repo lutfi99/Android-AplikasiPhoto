@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -14,6 +15,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,18 +30,23 @@ public class RegisterActivity extends Activity {
 	Button buttonRegisterMasuk;
 	ImageView imagePhotoProfile;
 	TextView textViewChangePhoto;
-	
+	SessionManager session;
 	LoginDataBaseAdapter loginDataBaseAdapter;
+	String userName, password, nameKirim;
 
 	private static final int REQUEST_CODE = 1;
 	private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
 
 	private Bitmap bitmap;
+	ByteArrayOutputStream outStr;
+	byte[] image;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.register);
+		
+		session = new SessionManager(getApplicationContext());
 		
 		loginDataBaseAdapter = new LoginDataBaseAdapter(this);
 		loginDataBaseAdapter = loginDataBaseAdapter.open();
@@ -60,8 +68,8 @@ public class RegisterActivity extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				
-				String userName = editTextUsernameRegister.getText().toString();
-				String password = editTextPasswordRegister.getText().toString();
+				userName = editTextUsernameRegister.getText().toString();
+				password = editTextPasswordRegister.getText().toString();
 				String name = editTextNameRegister.getText().toString();
 				String email = editTextEmailRegister.getText().toString();
 				String phone = editTextPhoneRegister.getText().toString();
@@ -70,10 +78,21 @@ public class RegisterActivity extends Activity {
 				//	byte[] image = extras.getByteArray("image"); //bitmaptoByteArray(bitmap);
 				//	imagePhotoProfile.setImageBitmap(BitmapFactory.decodeByteArray(image, 0, image.length));
 				//if(bitmap != null) {
-					ByteArrayOutputStream outStr = new ByteArrayOutputStream();
-					bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStr);
-					//bitmap.compress(Bitmap.CompressFormat.PNG, 100, outStr);
-					byte[] image = outStr.toByteArray();	        	
+				
+				session.createLoginSession(userName, password);
+				HashMap<String, String> user = session.getUserDetails();
+		        nameKirim = user.get(SessionManager.KEY_NAME);
+					
+					if(bitmap == null){
+						bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.profile_photo);
+						outStr = new ByteArrayOutputStream();
+						bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStr);
+						image = outStr.toByteArray();
+					}else{
+						outStr = new ByteArrayOutputStream();
+						bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStr);
+						image = outStr.toByteArray();
+					}
 				//}	
 				
 				//check jika field kosong
@@ -83,7 +102,12 @@ public class RegisterActivity extends Activity {
 				} else {
 					//save ke database
 					loginDataBaseAdapter.insertEntry(userName, password, name, email, phone, image);
-					Intent intentBack =  new Intent(RegisterActivity.this, MainActivity.class);
+					
+					Bundle bundle = new Bundle();
+					bundle.putString("value_username", nameKirim);
+					
+					Intent intentBack =  new Intent(RegisterActivity.this, Tab.class);
+					intentBack.putExtras(bundle); 
 					startActivity(intentBack);
 				}
 
@@ -220,5 +244,4 @@ public class RegisterActivity extends Activity {
 		super.onPause();
 		//finish();
 	}
-
 }

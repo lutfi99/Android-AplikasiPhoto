@@ -1,6 +1,13 @@
 package com.example.studio;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import android.content.Context;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -10,9 +17,34 @@ import android.widget.ImageView;
 public class ImageAdapter extends BaseAdapter {
 	private Context mContext;
 	
+	private List<Bitmap> i = new ArrayList<Bitmap>();
+	private Cursor cursor;
+	
+	/*private LoginDataBaseAdapter loginDataBaseAdapter;
+	
+	loginDataBaseAdapter = new LoginDataBaseAdapter(this);
+	loginDataBaseAdapter = loginDataBaseAdapter.open();
+
+	Cursor cursor = loginDataBaseAdapter.test();
+	
+	cursor.moveToFirst();
+	byte[] byteImg = cursor.getBlob(cursor.getColumnIndex("IMAGE"));
+	
+	List<Bitmap> image = new ArrayList<Bitmap>();
+	
+	if (cursor.getCount() > 0) {
+
+		for(int i=0;i<cursor.getCount();i++){
+			cursor.moveToNext();
+			Bitmap bm = BitmapFactory.decodeByteArray(byteImg, 0, byteImg.length);
+			//image.add(cursor.getBlob(2));
+			image.add(bm);
+		}
+	}*/
+	
 	//masukkan images ke array
-	public Integer[] image = {
-	//		pic1, pic2, pic3;
+	 Integer[] image = {
+			
 	};
 	
 	public ImageAdapter (Context c) {
