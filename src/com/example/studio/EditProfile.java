@@ -2,15 +2,19 @@ package com.example.studio;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.DialogInterface.OnCancelListener;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 public class EditProfile extends Activity {
 	
+	private static final int DIALOG_LOADING = 0;
 	EditText editTextNameEdit, editTextEmailEdit, editTextPhoneEdit,editTextChangePassword,editTextNewPassword,editTextNewPasswordAgain;
 	Button buttonChangePassword, buttonSaveChange;
 	LoginDataBaseAdapter loginDataBaseAdapter;
@@ -59,6 +63,7 @@ public class EditProfile extends Activity {
 					//save ke database
 					loginDataBaseAdapter.updateEntry(getUserName, name, email, phone);
 					Toast.makeText(EditProfile.this, "Updated!", Toast.LENGTH_LONG).show();
+					showDialog(DIALOG_LOADING);
 					finish();
 				}
 			}
@@ -108,4 +113,25 @@ public class EditProfile extends Activity {
 			}
 		});
 	}
+	
+	@Override   
+	protected Dialog onCreateDialog(int id) {
+	    switch (id) {
+	    case DIALOG_LOADING:
+	        final Dialog dialog = new Dialog(this, android.R.style.Theme_Translucent);          
+	        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+	        dialog.setContentView(R.layout.loading);
+	        dialog.setCancelable(true);
+	        dialog.setOnCancelListener(new OnCancelListener() {             
+	            @Override
+	            public void onCancel(DialogInterface dialog) {
+	                //onBackPressed();
+	            }
+	        });
+	    return dialog;  
+
+	    default:
+	        return null;
+	    }
+	};
 }

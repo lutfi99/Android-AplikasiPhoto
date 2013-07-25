@@ -4,10 +4,13 @@ import java.util.HashMap;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
+import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -15,17 +18,19 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity {
 	
+	private static final int DIALOG_LOADING = 0;
 	Button buttonRegister, buttonSignIn;
 	EditText editTextUserSignIn, editTextPasswordSignIn;
 	LoginDataBaseAdapter loginDataBaseAdapter;
 	SessionManager session;
 	String name, userName, password;
+	Toast toast;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
+
 		// Session Manager
         session = new SessionManager(getApplicationContext());
 
@@ -110,7 +115,9 @@ public class MainActivity extends Activity {
 		        
 				
 				if(password.equals(storedPassword)){
-					Toast.makeText(MainActivity.this, "Login Successfull", Toast.LENGTH_SHORT).show();
+					toast = Toast.makeText(MainActivity.this, "Login Successfull", Toast.LENGTH_SHORT);
+					//toast.setGravity(Gravity.CENTER, 0, 0);
+					toast.show();
 					
 					Bundle bundle = new Bundle();
 					bundle.putString("value_username", name);
@@ -120,15 +127,22 @@ public class MainActivity extends Activity {
 					startActivity(intentProfile);
 					dialog.dismiss();
 					finish();
+					showDialog(DIALOG_LOADING);
 				}
 				else {
-					Toast.makeText(MainActivity.this, "Username or Password does not match", Toast.LENGTH_SHORT).show();
+					toast = Toast.makeText(MainActivity.this, "Username or Password does not match", Toast.LENGTH_SHORT);
+					toast.setGravity(Gravity.CENTER, 0, 0);
+					toast.show();
 				}
 			}
 		});
 		dialog.show();
 	}
-	
+	@Override
+	public void onPause(){
+		super.onPause();
+		finish();
+	}
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
@@ -136,4 +150,25 @@ public class MainActivity extends Activity {
 		loginDataBaseAdapter.close();
 		finish();
 	}
+	
+	@Override   
+	protected Dialog onCreateDialog(int id) {
+	    switch (id) {
+	    case DIALOG_LOADING:
+	        final Dialog dialog = new Dialog(this, android.R.style.Theme_Translucent);          
+	        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+	        dialog.setContentView(R.layout.loading);
+	        dialog.setCancelable(true);
+	        dialog.setOnCancelListener(new OnCancelListener() {             
+	            @Override
+	            public void onCancel(DialogInterface dialog) {
+	                //onBackPressed();
+	            }
+	        });
+	    return dialog;  
+
+	    default:
+	        return null;
+	    }
+	};
 }

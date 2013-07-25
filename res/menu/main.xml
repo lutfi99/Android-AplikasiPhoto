@@ -10,5 +10,10 @@
         android:id="@+id/itemLogout"
         android:showAsAction="always|withText"
         android:title="LOGOUT"/>
+    
+    <item
+        android:id="@+id/itemRefresh"
+        android:showAsAction="always"
+        android:icon="@drawable/refresh"/>
 
 </menu>

@@ -25,8 +25,6 @@ public class Timeline extends ListActivity {
 
 		loginDataBaseAdapter = new LoginDataBaseAdapter(this);
 		loginDataBaseAdapter = loginDataBaseAdapter.open();
-
-		cursor = loginDataBaseAdapter.test();
 		
 		/*List<String> txt = new ArrayList<String>();
 		if (cursor.getCount() > 0) {
@@ -55,25 +53,30 @@ public class Timeline extends ListActivity {
 		
 //		cursor.moveToFirst();
 //		byte[] byteImg = cursor.getBlob(cursor.getColumnIndex("IMAGE"));
-		image = new ArrayList<ListPhoto>();
 		
-		if (cursor.getCount() > 0) {
 
-			for(int i=0;i<cursor.getCount();i++){
-				cursor.moveToNext();
-				list = new ListPhoto();
-				//Bitmap bm = BitmapFactory.decodeByteArray(byteImg, 0, byteImg.length);
-				list.setImage(cursor.getString(2));
-				list.setUser(cursor.getString(1));
-				image.add(0, list);
-				//image.add(bm);
-			}
-			
-		}
-		adapter = new AdapterCustomTimeline(this, R.layout.list_item_timeline, R.id.imageListView, image);
-		setListAdapter(adapter); 
+//		cursor = loginDataBaseAdapter.test();
+//		image = new ArrayList<ListPhoto>();
+//		
+//		if (cursor.getCount() > 0) {
+//
+//			for(int i=0;i<cursor.getCount();i++){
+//				cursor.moveToNext();
+//				list = new ListPhoto();
+//				//Bitmap bm = BitmapFactory.decodeByteArray(byteImg, 0, byteImg.length);
+//				list.setImage(cursor.getString(2));
+//				list.setUser(cursor.getString(1));
+//				image.add(0, list);
+//				//image.add(bm);
+//			}
+//			
+//		}
+//		adapter = new AdapterCustomTimeline(this, R.layout.list_item_timeline, R.id.imageListView, image);
+//		setListAdapter(adapter); 
+//		
+//		adapter.notifyDataSetChanged();
 		
-		adapter.notifyDataSetChanged();
+		setupData();
 		
 		/*		startManagingCursor(cursor);
 
@@ -111,9 +114,34 @@ public class Timeline extends ListActivity {
 		super.onResume();
 		Log.d("Lutfi", "resumeee");
 		
-		cursor = loginDataBaseAdapter.test();
-		cursor.moveToNext();
 		adapter.notifyDataSetChanged();
+		setupData();
 	}
 	
+	private void setupData() {
+		image = new ArrayList<ListPhoto>();
+		cursor = loginDataBaseAdapter.test();
+		if (cursor.getCount() > 0) {
+
+			for(int i=0;i<cursor.getCount();i++){
+				cursor.moveToNext();
+				list = new ListPhoto();
+				//Bitmap bm = BitmapFactory.decodeByteArray(byteImg, 0, byteImg.length);
+				list.setImage(cursor.getString(2));
+				list.setUser(cursor.getString(1));
+				image.add(0, list);
+				//image.add(bm);
+			}
+			
+		}
+
+		adapter = new AdapterCustomTimeline(this, R.layout.list_item_timeline, R.id.imageListView, image);
+		setListAdapter(adapter); 
+    }
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		finish();
+	}
 }

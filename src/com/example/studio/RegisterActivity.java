@@ -10,14 +10,15 @@ import java.util.HashMap;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -36,6 +37,7 @@ public class RegisterActivity extends Activity {
 
 	private static final int REQUEST_CODE = 1;
 	private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
+	private static final int DIALOG_LOADING = 0;
 
 	private Bitmap bitmap;
 	ByteArrayOutputStream outStr;
@@ -109,6 +111,7 @@ public class RegisterActivity extends Activity {
 					Intent intentBack =  new Intent(RegisterActivity.this, Tab.class);
 					intentBack.putExtras(bundle); 
 					startActivity(intentBack);
+					showDialog(DIALOG_LOADING);
 				}
 
 				finish();
@@ -244,4 +247,25 @@ public class RegisterActivity extends Activity {
 		super.onPause();
 		//finish();
 	}
+	
+	@Override   
+	protected Dialog onCreateDialog(int id) {
+	    switch (id) {
+	    case DIALOG_LOADING:
+	        final Dialog dialog = new Dialog(this, android.R.style.Theme_Translucent);          
+	        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+	        dialog.setContentView(R.layout.loading);
+	        dialog.setCancelable(true);
+	        dialog.setOnCancelListener(new OnCancelListener() {             
+	            @Override
+	            public void onCancel(DialogInterface dialog) {
+	                //onBackPressed();
+	            }
+	        });
+	    return dialog;  
+
+	    default:
+	        return null;
+	    }
+	};
 }

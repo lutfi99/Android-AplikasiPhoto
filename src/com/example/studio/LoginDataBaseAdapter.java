@@ -232,6 +232,12 @@ public class LoginDataBaseAdapter {
 		}
 	}
 	
+	public int deleteImage(String ID) {
+		String where="ID=?";
+		int numberOFEntriesDeleted = db.delete("PHOTO", where, new String[]{ID});
+		return numberOFEntriesDeleted;
+	}
+	
 	/*public Cursor getProfile(String userName) {
 		db = dbHelper.getReadableDatabase();
 		Cursor cursor = db.query("LOGIN", null, " USERNAME=?", new String[]{userName}, null, null, null);

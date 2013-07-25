@@ -54,21 +54,6 @@ public class AdapterCustomTimeline extends ArrayAdapter<ListPhoto> {
 		}
         
 		image.setImageBitmap(bitmap);
-		image.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				final Dialog dialog = new Dialog(getContext());
-				dialog.setContentView(R.layout.image_full);
-				dialog.show();
-				ImageView imageFull = (ImageView)dialog.findViewById(R.id.imageFull);
-				
-				imageFull.setImageBitmap(bitmap);
-				Log.d("Lutfi", "image di click");
-				notifyDataSetChanged();
-			}
-		});
 		
 		return row;
 	}

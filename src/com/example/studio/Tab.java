@@ -69,6 +69,10 @@ public class Tab extends TabActivity{
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
+		case R.id.itemRefresh:
+			
+			
+			return true;
 		case R.id.itemLogout:
 			
 			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
@@ -97,5 +101,11 @@ public class Tab extends TabActivity{
 		default:
 			return true;
 		}
+	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		finish();
 	}
 }

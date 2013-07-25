@@ -9,7 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -17,20 +19,22 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class Profile extends Activity {
 	ImageView imageViewPhoto;
 	TextView textViewUserName;
-	Button buttonEditProfile, buttonPhoto, buttonLogout, buttonTimeline, buttonGrid;
+	Button buttonEditProfile, buttonPhoto, buttonTimeline, buttonGrid;
 	LoginDataBaseAdapter loginDataBaseAdapter;
 	String getUserName, getNama;
 	ImageView mImage;
@@ -51,6 +55,7 @@ public class Profile extends Activity {
 	AdapterCustom adapter;
 	ListPhoto list;
 	List<ListPhoto> image;
+	GridView gridView;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -64,45 +69,73 @@ public class Profile extends Activity {
 		
 		getUserName = bundle.getString("value_username");
 
-		GridView gridView = (GridView) findViewById(R.id.grid_view);
+		gridView = (GridView) findViewById(R.id.grid_view);
         
 		loginDataBaseAdapter = new LoginDataBaseAdapter(this);
 		loginDataBaseAdapter = loginDataBaseAdapter.open();
 		
-		cursor = loginDataBaseAdapter.grid(getUserName);
-		
-		image = new ArrayList<ListPhoto>();
-		
-		if (cursor.getCount() > 0) {
-
-			for(int i=0;i<cursor.getCount();i++){
-				cursor.moveToNext();
-				list = new ListPhoto();
-				list.setImage(cursor.getString(2));
-				image.add(list);
-			}
-			
-		}
-		
-		adapter = new AdapterCustom(this, R.layout.list_item_view, R.id.imageListView, image);
-		gridView.setAdapter(adapter);
+		setupData();
 		adapter.notifyDataSetChanged();
+		
+		gridView.setOnItemClickListener(new OnItemClickListener(){
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				// TODO Auto-generated method stub
+				final Dialog dialog = new Dialog(Profile.this);
+				dialog.setContentView(R.layout.image_full);
+				dialog.setTitle("Detail Image");
+				dialog.show();
+				ImageView imageFull = (ImageView)dialog.findViewById(R.id.imageFull);
+				
+				list = image.get(arg2);
+				Uri ur = Uri.parse(list.getImage());
+				
+				imageFull.setImageURI(ur);
+				
+				Button buttonDeleteImage = (Button)dialog.findViewById(R.id.buttonDeleteImage);
+				buttonDeleteImage.setOnClickListener(new View.OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						
+						AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+								Profile.this);
+							alertDialogBuilder.setTitle("Delete");
+				 
+							alertDialogBuilder
+								.setMessage("Photo will be deleted")
+								.setCancelable(false)
+								.setPositiveButton("Delete",new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog,int id) {
+										String idKirim = Integer.toString(list.getId());
+										loginDataBaseAdapter.deleteImage(idKirim);
+										adapter.notifyDataSetChanged();
+										setupData();
+										Toast toast = Toast.makeText(getApplicationContext(), "Photo is deleted", Toast.LENGTH_LONG);
+										//toast.setGravity(Gravity.CENTER, 0, 0);
+										toast.show();
+									}
+								  })
+								.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog,int id) {
+										dialog.cancel();
+									}
+								});
+
+								AlertDialog alertDialog = alertDialogBuilder.create();
+								alertDialog.show();
+								dialog.cancel();
+					}
+				});
+			}
+		});
 		
 		
 		imageViewPhoto = (ImageView) findViewById(R.id.imageViewPhoto);
 		textViewUserName = (TextView) findViewById(R.id.textViewUserName);
 		buttonEditProfile = (Button) findViewById(R.id.buttonEditProfile);
-
-		buttonLogout = (Button) findViewById(R.id.buttonLogout);
-		buttonLogout.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
-				session.logoutUser();
-				finish();
-			}
-		});
 
 		getNama = loginDataBaseAdapter.getName(getUserName);
 		
@@ -147,8 +180,8 @@ public class Profile extends Activity {
 		getNama = loginDataBaseAdapter.getName(getUserName);
 		textViewUserName.setText(getNama);
 		
-		cursor = loginDataBaseAdapter.grid(getUserName);
 		adapter.notifyDataSetChanged();
+		setupData();
 	}
 
 //	@Override
@@ -302,6 +335,31 @@ public class Profile extends Activity {
 		//save ke database
 		loginDataBaseAdapter.updatePhoto(getUserName, image);
 	}
+	
+	private void setupData() {
+		image = new ArrayList<ListPhoto>();
+		cursor = loginDataBaseAdapter.grid(getUserName);
+		
+		if (cursor.getCount() > 0) {
 
+			for(int i=0;i<cursor.getCount();i++){
+				cursor.moveToNext();
+				list = new ListPhoto();
+				list.setImage(cursor.getString(2));
+				list.setId(cursor.getInt(0));
+				image.add(0, list);
+			}
+			
+		}
+		
+		adapter = new AdapterCustom(this, R.layout.list_item_view, R.id.imageListView, image);
+		gridView.setAdapter(adapter);
+    }
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		finish();
+	}
 }
 

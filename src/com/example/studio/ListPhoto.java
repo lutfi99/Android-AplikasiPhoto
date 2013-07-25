@@ -1,13 +1,13 @@
 package com.example.studio;
 
 public class ListPhoto {
-	private long id;
+	private int id;
 	private String user;
 	private String image;
-	public long getId() {
+	public int getId() {
 		return id;
 	}
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	public String getUser() {
