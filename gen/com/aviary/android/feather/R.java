@@ -495,7 +495,7 @@ public final class R {
 		public static final int aviary_wheel_line = 0x7f020083;
 		public static final int aviary_wheel_shadow = 0x7f020084;
 		public static final int aviary_wheel_shadow_bottom = 0x7f020085;
-		public static final int ic_stickers = 0x7f020087;
+		public static final int ic_stickers = 0x7f02008c;
 	}
 	public static final class id {
 		public static final int aviary_bottom_line = 0x7f060046;
@@ -583,7 +583,7 @@ public final class R {
 		public static final int nonblank = 0x7f060023;
 		public static final int pressed = 0x7f060000;
 		public static final int selected = 0x7f060002;
-		public static final int shadow = 0x7f06008e;
+		public static final int shadow = 0x7f06008d;
 		public static final int size_preview = 0x7f06005f;
 		public static final int text = 0x7f060024;
 		public static final int text1 = 0x7f06004a;

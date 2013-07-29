@@ -1,12 +1,9 @@
 package com.example.studio;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Date;
 
 import android.app.Activity;
@@ -14,7 +11,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -22,8 +18,6 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -41,11 +35,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnLongClickListener;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.aviary.android.feather.FeatherActivity;
@@ -60,8 +50,6 @@ import com.aviary.android.feather.headless.utils.StringUtils;
 import com.aviary.android.feather.library.Constants;
 import com.aviary.android.feather.library.providers.FeatherContentProvider;
 import com.aviary.android.feather.library.providers.FeatherContentProvider.ActionsDbColumns.Action;
-import com.aviary.android.feather.library.utils.DecodeUtils;
-import com.aviary.android.feather.library.utils.ImageLoader.ImageSizes;
 import com.aviary.android.feather.library.utils.SystemUtils;
 
 public class Photo extends Activity {
@@ -78,7 +66,7 @@ public class Photo extends Activity {
 	private Bitmap bitmap;
 	
 	Uri mImageUri;
-	String mOutputFilePath;
+	String mOutputFilePath,filename;
 	private File mGalleryFolder;
 	int imageWidth, imageHeight;
 	
@@ -119,10 +107,12 @@ public class Photo extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
+				
 				Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-				photo = new File(Environment.getExternalStorageDirectory(),  "Pic.jpg");
-			    intent.putExtra(MediaStore.EXTRA_OUTPUT,
+				photo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),  "lutfi_" + System.currentTimeMillis() + ".jpg");
+				
+				intent.putExtra(MediaStore.EXTRA_OUTPUT,
 			            Uri.fromFile(photo));
 				startActivityForResult(intent, PHOTO_REQUEST_CODE);
 			}

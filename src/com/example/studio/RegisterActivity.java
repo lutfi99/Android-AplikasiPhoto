@@ -17,6 +17,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -24,6 +25,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.example.studio.Validate;
 
 public class RegisterActivity extends Activity {
 	
@@ -59,9 +61,17 @@ public class RegisterActivity extends Activity {
 		editTextEmailRegister = (EditText) findViewById (R.id.editTextEmailRegister);
 		editTextPhoneRegister = (EditText) findViewById (R.id.editTextPhoneRegister);
 		
+//		editTextUsernameRegister.setCompoundDrawables(getResources().getDrawable(R.drawable.username), null, null, null);
+		
+		editTextUsernameRegister.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.username), null, null, null);
+		editTextPasswordRegister.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.password), null, null, null);
+		editTextNameRegister.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.name), null, null, null);
+		editTextEmailRegister.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.email), null, null, null);
+		editTextPhoneRegister.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.phone), null, null, null);
+		
 		imagePhotoProfile = (ImageView) findViewById (R.id.imagePhotoProfile);
 		
-		textViewChangePhoto = (TextView) findViewById (R.id.textViewChangePhoto);
+//		textViewChangePhoto = (TextView) findViewById (R.id.textViewChangePhoto);
 		
 		buttonRegisterMasuk = (Button) findViewById (R.id.buttonRegisterMasuk);
 		buttonRegisterMasuk.setOnClickListener(new View.OnClickListener() {
@@ -98,11 +108,9 @@ public class RegisterActivity extends Activity {
 				//}	
 				
 				//check jika field kosong
-				if(userName.equals("")||password.equals("")||name.equals("")||email.equals("")||phone.equals("")) {
-					Toast.makeText(getApplicationContext(), "Field Vaccant", Toast.LENGTH_LONG).show();
-					return;
-				} else {
-					//save ke database
+//				if(userName.equals("")||password.equals("")||name.equals("")||email.equals("")||phone.equals("")) {
+				if(validated()){
+					
 					loginDataBaseAdapter.insertEntry(userName, password, name, email, phone, image);
 					
 					Bundle bundle = new Bundle();
@@ -112,6 +120,23 @@ public class RegisterActivity extends Activity {
 					intentBack.putExtras(bundle); 
 					startActivity(intentBack);
 					showDialog(DIALOG_LOADING);
+					
+				} 
+				else {
+					//save ke database
+//					loginDataBaseAdapter.insertEntry(userName, password, name, email, phone, image);
+//					
+//					Bundle bundle = new Bundle();
+//					bundle.putString("value_username", nameKirim);
+//					
+//					Intent intentBack =  new Intent(RegisterActivity.this, Tab.class);
+//					intentBack.putExtras(bundle); 
+//					startActivity(intentBack);
+//					showDialog(DIALOG_LOADING);
+//					
+//
+//					Toast.makeText(getApplicationContext(), "Email is not valid type", Toast.LENGTH_LONG).show();
+					return;
 				}
 
 				finish();
@@ -235,6 +260,38 @@ public class RegisterActivity extends Activity {
         byte[] byteArray = out.toByteArray();
         return byteArray;
 	}*/
+	
+	protected boolean validated() {
+		  
+		 boolean validated = true;
+		  
+		 if (!Validate.hasText(editTextUsernameRegister)){
+			 Toast.makeText(getApplicationContext(), "username is empty", Toast.LENGTH_SHORT).show();
+			 validated = false;
+		 }
+		 if (!Validate.hasText(editTextPasswordRegister)){
+			 Toast.makeText(getApplicationContext(), "password is empty", Toast.LENGTH_SHORT).show();
+			 validated = false;
+		 }
+		 if (!Validate.hasText(editTextNameRegister)){
+			 Toast.makeText(getApplicationContext(), "name is empty", Toast.LENGTH_SHORT).show();
+			 validated = false;
+		 }
+		 if (!Validate.isEmailAddress(editTextEmailRegister, false)){
+			 Toast.makeText(getApplicationContext(), "email is not valid", Toast.LENGTH_SHORT).show();
+			 validated = false;
+		 }
+
+		 if (!Validate.hasText(editTextEmailRegister)){
+			 Toast.makeText(getApplicationContext(), "email is empty", Toast.LENGTH_SHORT).show();
+			 validated = false;
+		 }
+		 if (!Validate.hasText(editTextPhoneRegister)){
+			 Toast.makeText(getApplicationContext(), "phone is empty", Toast.LENGTH_SHORT).show();
+			 validated = false;
+		 }
+		 return validated;
+		}
 	
 	@Override
 	protected void onDestroy() {

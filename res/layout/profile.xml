@@ -2,10 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:background="@drawable/bg" >
 <LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="110dp"
+    android:layout_height="wrap_content"
 	android:id="@+id/image_container"
     android:orientation="horizontal" >
     
@@ -13,8 +14,8 @@
             android:id="@+id/imageViewPhoto"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:background="#b0b0b0"
-            android:src="@drawable/ic_launcher" 
+            android:background="@drawable/grid_bg"
+            android:src="@drawable/profile_photo" 
             android:padding="5dp"/>
 
 	<LinearLayout
@@ -26,7 +27,7 @@
             android:id="@+id/textViewUserName"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="#dcdcdc"
+            android:background="@drawable/grid_bg"
             android:paddingLeft="10dp"
             android:paddingTop="15dp"
             android:textSize="25sp" />
@@ -46,17 +47,20 @@
 	        android:layout_height="2dip"
 	        android:background="#FF0000"
 	        android:layout_width="match_parent" />
-	
-<GridView 
+
+<GridView
     android:id="@+id/grid_view"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:numColumns="auto_fit"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="20dp"
+    android:layout_marginTop="20dp"
     android:columnWidth="90dp"
-    android:horizontalSpacing="10dp"
-    android:verticalSpacing="10dp"
     android:gravity="center"
-    android:stretchMode="columnWidth" >
+    android:horizontalSpacing="20dp"
+    android:numColumns="auto_fit"
+    android:stretchMode="columnWidth"
+    android:verticalSpacing="20dp" >
+
 </GridView>
 
 </LinearLayout>

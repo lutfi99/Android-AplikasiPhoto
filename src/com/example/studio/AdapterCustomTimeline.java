@@ -3,15 +3,14 @@ package com.example.studio;
 import java.io.FileNotFoundException;
 import java.util.List;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.MarginLayoutParams;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -54,7 +53,6 @@ public class AdapterCustomTimeline extends ArrayAdapter<ListPhoto> {
 		}
         
 		image.setImageBitmap(bitmap);
-		
 		return row;
 	}
 }

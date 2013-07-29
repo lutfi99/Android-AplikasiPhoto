@@ -31,6 +31,10 @@ public class EditProfile extends Activity {
 		buttonChangePassword = (Button) findViewById (R.id.buttonChangePassword);
 		buttonSaveChange = (Button) findViewById (R.id.buttonSaveChange);
 		
+		editTextNameEdit.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.name), null, null, null);
+		editTextEmailEdit.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.email), null, null, null);
+		editTextPhoneEdit.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.phone), null, null, null);
+		
 		loginDataBaseAdapter = new LoginDataBaseAdapter(this);
 		loginDataBaseAdapter = loginDataBaseAdapter.open();
 		
@@ -56,15 +60,26 @@ public class EditProfile extends Activity {
 				String phone = editTextPhoneEdit.getText().toString();
 				
 				//check jika field kosong
-				if(name.equals("")||email.equals("")||phone.equals("")) {
-					Toast.makeText(getApplicationContext(), "Field Vaccant", Toast.LENGTH_LONG).show();
-					return;
-				} else {
-					//save ke database
+//				if(name.equals("")||email.equals("")||phone.equals("")) {
+//					Toast.makeText(getApplicationContext(), "Field Vaccant", Toast.LENGTH_LONG).show();
+//					return;
+//				} else {
+//					//save ke database
+//					loginDataBaseAdapter.updateEntry(getUserName, name, email, phone);
+//					Toast.makeText(EditProfile.this, "Updated!", Toast.LENGTH_LONG).show();
+//					showDialog(DIALOG_LOADING);
+//					finish();
+//				}
+				
+				
+				if(validated()){
 					loginDataBaseAdapter.updateEntry(getUserName, name, email, phone);
 					Toast.makeText(EditProfile.this, "Updated!", Toast.LENGTH_LONG).show();
 					showDialog(DIALOG_LOADING);
 					finish();
+				} 
+				else {
+					return;
 				}
 			}
 		});
@@ -113,6 +128,29 @@ public class EditProfile extends Activity {
 			}
 		});
 	}
+	
+	protected boolean validated() {
+		  
+		 boolean validated = true;
+		 
+		 if (!Validate.hasText(editTextNameEdit)){
+			 Toast.makeText(getApplicationContext(), "name is empty", Toast.LENGTH_SHORT).show();
+			 validated = false;
+		 }
+		 if (!Validate.hasText(editTextEmailEdit)){
+			 Toast.makeText(getApplicationContext(), "email is empty", Toast.LENGTH_SHORT).show();
+			 validated = false;
+		 }
+		 if (!Validate.hasText(editTextPhoneEdit)){
+			 Toast.makeText(getApplicationContext(), "phone is empty", Toast.LENGTH_SHORT).show();
+			 validated = false;
+		 }
+		 if (!Validate.isEmailAddress(editTextEmailEdit, false)){
+			 Toast.makeText(getApplicationContext(), "email is not valid", Toast.LENGTH_SHORT).show();
+			 validated = false;
+		 }
+		 return validated;
+		}
 	
 	@Override   
 	protected Dialog onCreateDialog(int id) {

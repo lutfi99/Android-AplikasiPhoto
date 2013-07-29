@@ -8,6 +8,8 @@ import android.app.ListActivity;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.LinearLayout;
 
 @SuppressLint("NewApi")
 public class Timeline extends ListActivity {
@@ -136,7 +138,7 @@ public class Timeline extends ListActivity {
 		}
 
 		adapter = new AdapterCustomTimeline(this, R.layout.list_item_timeline, R.id.imageListView, image);
-		setListAdapter(adapter); 
+		setListAdapter(adapter);
     }
 	
 	@Override

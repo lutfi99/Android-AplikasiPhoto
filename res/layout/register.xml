@@ -3,35 +3,35 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_gravity="center_vertical" >
+    android:layout_gravity="center_vertical"
+    android:background="@drawable/bg" >
 
-    <TableRow
-        android:id="@+id/tableRow"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+   <TableRow
+       android:id="@+id/tableRow"
+       android:layout_width="match_parent"
+       android:layout_height="140dp">
 
         <ImageView
             android:id="@+id/imagePhotoProfile"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:onClick="ChangePhoto"
-            android:src="@drawable/profile_photo" />
-
-        <TextView
-            android:id="@+id/textViewChangePhoto"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
             android:layout_gravity="center"
             android:layout_marginLeft="10dp"
             android:onClick="ChangePhoto"
-            android:text="Change Photo Profile?" />
+            android:src="@drawable/profile_photo" />
 
     </TableRow>
         
+   
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" 
+    android:orientation="vertical"
+    android:background="@drawable/paper"  >  
     <TableRow
         android:id="@+id/tableRow1"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
         android:layout_marginTop="20dp" >
 
         <EditText
@@ -39,7 +39,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="User Name" >
+            android:hint="User Name"
+            android:textColorHint="#000000" >
             <requestFocus />
         </EditText>
 
@@ -48,7 +49,7 @@
     <TableRow
         android:id="@+id/tableRow2"
         android:layout_width="match_parent"
-        android:layout_height="40dp" >
+        android:layout_height="50dp" >
         
         <EditText
             android:id="@+id/editTextPasswordRegister"
@@ -56,7 +57,8 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPassword"
-            android:hint="Password" >
+            android:hint="Password"
+            android:textColorHint="#000000" >
         </EditText>
         
       </TableRow>
@@ -64,14 +66,15 @@
     <TableRow
         android:id="@+id/tableRow3"
         android:layout_width="match_parent"
-        android:layout_height="40dp" >
+        android:layout_height="50dp" >
         
         <EditText
             android:id="@+id/editTextNameRegister"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Name" >
+            android:hint="Name"
+            android:textColorHint="#000000" >
         </EditText>
         
       </TableRow>
@@ -79,7 +82,7 @@
     <TableRow
         android:id="@+id/tableRow4"
         android:layout_width="match_parent"
-        android:layout_height="40dp" >
+        android:layout_height="50dp" >
         
         <EditText
             android:id="@+id/editTextEmailRegister"
@@ -87,7 +90,8 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Email"
-            android:inputType="textEmailAddress" >
+            android:inputType="textEmailAddress"
+            android:textColorHint="#000000" >
 
         </EditText>
         
@@ -96,7 +100,7 @@
     <TableRow
         android:id="@+id/tableRow5"
         android:layout_width="match_parent"
-        android:layout_height="40dp" >
+        android:layout_height="55dp" >
         
         <EditText
             android:id="@+id/editTextPhoneRegister"
@@ -104,22 +108,23 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Phone"
-            android:inputType="phone" >
+            android:inputType="phone"
+            android:textColorHint="#000000" >
 
         </EditText>
         
       </TableRow>
-      
+</LinearLayout>      
     <TableRow
         android:id="@+id/tableRow6"
         android:layout_width="match_parent"
-        android:layout_height="40dp" >
+        android:layout_height="60dp" >
         
         <Button
-        android:id="@+id/buttonRegisterMasuk"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Register" />
+            android:id="@+id/buttonRegisterMasuk"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="Register" />
         
       </TableRow>
 
