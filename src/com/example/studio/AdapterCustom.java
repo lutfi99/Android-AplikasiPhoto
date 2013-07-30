@@ -38,8 +38,8 @@ public class AdapterCustom extends ArrayAdapter<ListPhoto> {
 		
 		ListPhoto item = items.get(position);
 		
-		TextView text = (TextView) row.findViewById(R.id.textListView);
-		text.setText(item.getUser());
+//		TextView text = (TextView) row.findViewById(R.id.textListView);
+//		text.setText(item.getUser());
 		
 		Uri u = Uri.parse(item.getImage());
 		ImageView image = (ImageView) row.findViewById (R.id.imageListView);

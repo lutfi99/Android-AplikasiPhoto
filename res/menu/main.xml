@@ -8,12 +8,12 @@
     
     <item
         android:id="@+id/itemLogout"
-        android:showAsAction="always|withText"
-        android:title="LOGOUT"/>
+        android:showAsAction="always"
+        android:icon="@drawable/lgout"/>
     
     <item
         android:id="@+id/itemRefresh"
         android:showAsAction="always"
-        android:icon="@drawable/refresh"/>
+        android:icon="@drawable/ref"/>
 
 </menu>

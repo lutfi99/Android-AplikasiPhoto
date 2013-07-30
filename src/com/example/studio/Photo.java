@@ -36,6 +36,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TabHost;
 import android.widget.Toast;
 
 import com.aviary.android.feather.FeatherActivity;
@@ -70,6 +71,8 @@ public class Photo extends Activity {
 	private File mGalleryFolder;
 	int imageWidth, imageHeight;
 	
+	Tab t;
+	TabHost th;
 	
 	/** session id for the hi-res post processing */
 	private String mSessionId;
@@ -85,6 +88,8 @@ public class Photo extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.select_photo);
         
+		t = (Tab) this.getParent();
+		th = t.getMyTabHost();
         
 		loginDataBaseAdapter = new LoginDataBaseAdapter(this);
 		loginDataBaseAdapter = loginDataBaseAdapter.open();
@@ -367,6 +372,7 @@ public class Photo extends Activity {
                 bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(u));
                 savePhotoDBPhoto();
                 Toast.makeText(getApplicationContext(), "Photo is saved", Toast.LENGTH_LONG).show();
+                th.setCurrentTab(2);
 
             } catch (FileNotFoundException e) {
                 e.printStackTrace();

@@ -2,6 +2,8 @@ package com.example.studio;
 
 import java.util.HashMap;
 
+import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -9,6 +11,7 @@ import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.Menu;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -16,6 +19,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+@SuppressLint("NewApi")
 public class MainActivity extends Activity {
 	
 	private static final int DIALOG_LOADING = 0;
@@ -30,7 +34,10 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
+		
+		ActionBar actionBar = getActionBar();
+		actionBar.hide();
+		
 		// Session Manager
         session = new SessionManager(getApplicationContext());
 
@@ -139,11 +146,6 @@ public class MainActivity extends Activity {
 		dialog.show();
 	}
 	@Override
-	public void onPause(){
-		super.onPause();
-		finish();
-	}
-	@Override
 	protected void onDestroy() {
 		super.onDestroy();
 		//tutup database
@@ -171,4 +173,13 @@ public class MainActivity extends Activity {
 	        return null;
 	    }
 	};
+	
+//	@Override
+//	public boolean onCreateOptionsMenu(Menu menu) {
+//		// Inflate the menu; this adds items to the action bar if it is present.
+//		getMenuInflater().inflate(R.menu.main, menu);
+//	    
+////		menu.getItem(1).setVisible(false);
+//		return true;
+//	}
 }

@@ -346,7 +346,7 @@ public class Profile extends Activity {
 				cursor.moveToNext();
 				list = new ListPhoto();
 				list.setImage(cursor.getString(2));
-				list.setId(cursor.getInt(0));
+//				list.setId(cursor.getInt(0));
 				image.add(0, list);
 			}
 			
