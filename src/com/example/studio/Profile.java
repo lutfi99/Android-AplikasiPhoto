@@ -2,6 +2,7 @@ package com.example.studio;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -20,8 +21,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
@@ -32,7 +36,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class Profile extends Activity {
-	ImageView imageViewPhoto;
+	ImageView imageViewPhoto, bounceImage, bounceHome;
 	TextView textViewUserName;
 	Button buttonEditProfile, buttonPhoto, buttonTimeline, buttonGrid;
 	LoginDataBaseAdapter loginDataBaseAdapter;
@@ -57,10 +61,32 @@ public class Profile extends Activity {
 	List<ListPhoto> image;
 	GridView gridView;
 	
+	Animation animBounce, animBounceBack;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.profile);
+		
+		bounceImage = (ImageView) findViewById(R.id.bounceImage);
+		bounceImage.setVisibility(View.INVISIBLE);
+		
+		bounceHome = (ImageView) findViewById(R.id.bounceHome);
+		bounceHome.setVisibility(View.GONE);
+		
+		animBounce = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.bounce);
+		animBounceBack = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.bounce_back);
+		
+		bounceImage.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				bounceImage.startAnimation(animBounceBack);
+				bounceImage.setVisibility(View.GONE);
+				bounceHome.setVisibility(View.GONE);
+			}
+		});
 		
 		session = new SessionManager(getApplicationContext());
 
@@ -77,60 +103,82 @@ public class Profile extends Activity {
 		setupData();
 		adapter.notifyDataSetChanged();
 		
-		gridView.setOnItemClickListener(new OnItemClickListener(){
+		gridView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				// TODO Auto-generated method stub
-				final Dialog dialog = new Dialog(Profile.this);
-				dialog.setContentView(R.layout.image_full);
-				dialog.setTitle("Detail Image");
-				dialog.show();
-				ImageView imageFull = (ImageView)dialog.findViewById(R.id.imageFull);
+				Bundle bundle = new Bundle();
+				bundle.putString("value_username", getUserName);
 				
 				list = image.get(arg2);
 				Uri ur = Uri.parse(list.getImage());
-				
-				imageFull.setImageURI(ur);
-				
-				Button buttonDeleteImage = (Button)dialog.findViewById(R.id.buttonDeleteImage);
-				buttonDeleteImage.setOnClickListener(new View.OnClickListener() {
-					
-					@Override
-					public void onClick(View v) {
-						// TODO Auto-generated method stub
-						
-						AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-								Profile.this);
-							alertDialogBuilder.setTitle("Delete");
-				 
-							alertDialogBuilder
-								.setMessage("Photo will be deleted")
-								.setCancelable(false)
-								.setPositiveButton("Delete",new DialogInterface.OnClickListener() {
-									public void onClick(DialogInterface dialog,int id) {
-										String idKirim = Integer.toString(list.getId());
-										loginDataBaseAdapter.deleteImage(idKirim);
-										adapter.notifyDataSetChanged();
-										setupData();
-										Toast toast = Toast.makeText(getApplicationContext(), "Photo is deleted", Toast.LENGTH_LONG);
-										//toast.setGravity(Gravity.CENTER, 0, 0);
-										toast.show();
-									}
-								  })
-								.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
-									public void onClick(DialogInterface dialog,int id) {
-										dialog.cancel();
-									}
-								});
+				getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+				Intent intent = new Intent(Profile.this, FullImage.class);
+				intent.putExtras(bundle); 
+				intent.setData(ur);
+				startActivity(intent);
 
-								AlertDialog alertDialog = alertDialogBuilder.create();
-								alertDialog.show();
-								dialog.cancel();
-					}
-				});
 			}
+		
 		});
+		
+//		gridView.setOnItemClickListener(new OnItemClickListener(){
+//			@Override
+//			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+//					long arg3) {
+//				// TODO Auto-generated method stub
+//				
+//				
+//				
+//				final Dialog dialog = new Dialog(Profile.this);
+//				dialog.setContentView(R.layout.image_full);
+//				dialog.setTitle("Detail Image");
+//				dialog.show();
+//				ImageView imageFull = (ImageView)dialog.findViewById(R.id.imageFull);
+//				
+//				list = image.get(arg2);
+//				Uri ur = Uri.parse(list.getImage());
+//				
+//				imageFull.setImageURI(ur);
+//				
+//				Button buttonDeleteImage = (Button)dialog.findViewById(R.id.buttonDeleteImage);
+//				buttonDeleteImage.setOnClickListener(new View.OnClickListener() {
+//					
+//					@Override
+//					public void onClick(View v) {
+//						// TODO Auto-generated method stub
+//						
+//						AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+//								Profile.this);
+//							alertDialogBuilder.setTitle("Delete");
+//				 
+//							alertDialogBuilder
+//								.setMessage("Photo will be deleted")
+//								.setCancelable(false)
+//								.setPositiveButton("Delete",new DialogInterface.OnClickListener() {
+//									public void onClick(DialogInterface dialog,int id) {
+//										String idKirim = Integer.toString(list.getId());
+//										loginDataBaseAdapter.deleteImage(idKirim);
+//										adapter.notifyDataSetChanged();
+//										setupData();
+//										Toast toast = Toast.makeText(getApplicationContext(), "Photo is deleted", Toast.LENGTH_LONG);
+//										//toast.setGravity(Gravity.CENTER, 0, 0);
+//										toast.show();
+//									}
+//								  })
+//								.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+//									public void onClick(DialogInterface dialog,int id) {
+//										dialog.cancel();
+//									}
+//								});
+//
+//								AlertDialog alertDialog = alertDialogBuilder.create();
+//								alertDialog.show();
+//								dialog.cancel();
+//					}
+//				});
+//			}
+//		});
 		
 		
 		imageViewPhoto = (ImageView) findViewById(R.id.imageViewPhoto);
@@ -140,6 +188,18 @@ public class Profile extends Activity {
 		getNama = loginDataBaseAdapter.getName(getUserName);
 		
 		textViewUserName.setText(getNama);
+		
+//		textViewUserName.setOnClickListener(new View.OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View v) {
+//				// TODO Auto-generated method stub
+//
+//				bounceImage.setVisibility(View.VISIBLE);
+//				bounceImage.startAnimation(animBounce);
+//				bounceHome.setVisibility(View.VISIBLE);
+//			}
+//		});
 		
 		byte[] photo = loginDataBaseAdapter.getPhoto(getUserName);
 		Bitmap bm = BitmapFactory.decodeByteArray(photo, 0, photo.length);
@@ -346,7 +406,7 @@ public class Profile extends Activity {
 				cursor.moveToNext();
 				list = new ListPhoto();
 				list.setImage(cursor.getString(2));
-//				list.setId(cursor.getInt(0));
+				list.setId(cursor.getInt(0));
 				image.add(0, list);
 			}
 			
@@ -361,5 +421,20 @@ public class Profile extends Activity {
 		super.onDestroy();
 		finish();
 	}
+	
+//	public void onAnimationEnd(Animation animation) {
+//        // Take any action after completing the animation
+//		bounceImage.setVisibility(View.GONE);
+//    }
+// 
+//    public void onAnimationRepeat(Animation animation) {
+//        // TODO Auto-generated method stub
+// 
+//    }
+// 
+//    public void onAnimationStart(Animation animation) {
+//        // TODO Auto-generated method stub
+// 
+//    }
 }
 

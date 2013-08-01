@@ -18,13 +18,16 @@
         android:id="@+id/buttonShowPass"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:text="Show Password" />
+        android:text="Show Password"
+            android:background="#ff6600"
+            android:textColor="#cccccc" />
 
     <TextView
         android:id="@+id/textViewForgotPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Password: "
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:text="Password: " />
 
 </LinearLayout>

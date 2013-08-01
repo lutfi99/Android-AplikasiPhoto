@@ -30,13 +30,16 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="Sign In" />
+        android:text="Sign In"
+        android:background="#ff6600"
+        android:textColor="#cccccc" />
 
     <TextView
         android:id="@+id/textViewForgotPass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
         android:text="Forgot Password?"
         android:textColor="@android:color/holo_blue_light" />
 

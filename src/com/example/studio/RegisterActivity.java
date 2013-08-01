@@ -8,6 +8,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 
+import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -15,9 +17,10 @@ import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -25,7 +28,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.example.studio.Validate;
 
 public class RegisterActivity extends Activity {
 	
@@ -45,11 +47,16 @@ public class RegisterActivity extends Activity {
 	ByteArrayOutputStream outStr;
 	byte[] image;
 	
+	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.register);
 		
+		ActionBar bar = getActionBar();
+        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#ff6600")));
+        bar.setIcon(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
+        
 		session = new SessionManager(getApplicationContext());
 		
 		loginDataBaseAdapter = new LoginDataBaseAdapter(this);
@@ -175,8 +182,9 @@ public class RegisterActivity extends Activity {
 
 	public void ChangePhoto(View v) {
 		final Dialog dialog = new Dialog(RegisterActivity.this);
+		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		dialog.setContentView(R.layout.select_photo);
-		dialog.setTitle("Change Photo");
+		//dialog.setTitle("Change Photo");
 		
 		Button buttonTakePhoto = (Button)dialog.findViewById(R.id.buttonTakePhoto);
 		buttonTakePhoto.setOnClickListener(new View.OnClickListener() {
@@ -266,28 +274,39 @@ public class RegisterActivity extends Activity {
 		 boolean validated = true;
 		  
 		 if (!Validate.hasText(editTextUsernameRegister)){
-			 Toast.makeText(getApplicationContext(), "username is empty", Toast.LENGTH_SHORT).show();
+//			 Toast.makeText(getApplicationContext(), "username is empty", Toast.LENGTH_SHORT).show();
+			 editTextUsernameRegister.setError( "User name is required!" );
+			 editTextUsernameRegister.requestFocus();
 			 validated = false;
-		 }
+		 }else
 		 if (!Validate.hasText(editTextPasswordRegister)){
-			 Toast.makeText(getApplicationContext(), "password is empty", Toast.LENGTH_SHORT).show();
+//			 Toast.makeText(getApplicationContext(), "password is empty", Toast.LENGTH_SHORT).show();
+			 editTextPasswordRegister.setError( "Password is required!" );
+			 editTextPasswordRegister.requestFocus();
 			 validated = false;
-		 }
+		 }else
 		 if (!Validate.hasText(editTextNameRegister)){
-			 Toast.makeText(getApplicationContext(), "name is empty", Toast.LENGTH_SHORT).show();
+//			 Toast.makeText(getApplicationContext(), "name is empty", Toast.LENGTH_SHORT).show();
+			 editTextNameRegister.setError( "Name is required!" );
+			 editTextNameRegister.requestFocus();
 			 validated = false;
-		 }
+		 }else
 		 if (!Validate.isEmailAddress(editTextEmailRegister, false)){
 			 Toast.makeText(getApplicationContext(), "email is not valid", Toast.LENGTH_SHORT).show();
+			 editTextEmailRegister.requestFocus();
+//			 editTextEmailRegister.setError( "Email is invalid!" );
 			 validated = false;
-		 }
-
+		 }else
 		 if (!Validate.hasText(editTextEmailRegister)){
-			 Toast.makeText(getApplicationContext(), "email is empty", Toast.LENGTH_SHORT).show();
+//			 Toast.makeText(getApplicationContext(), "email is empty", Toast.LENGTH_SHORT).show();
+			 editTextEmailRegister.setError( "Email is required!" );
+			 editTextEmailRegister.requestFocus();
 			 validated = false;
-		 }
+		 }else
 		 if (!Validate.hasText(editTextPhoneRegister)){
-			 Toast.makeText(getApplicationContext(), "phone is empty", Toast.LENGTH_SHORT).show();
+//			 Toast.makeText(getApplicationContext(), "phone is empty", Toast.LENGTH_SHORT).show();
+			 editTextPhoneRegister.setError( "Phone is required!" );
+			 editTextPhoneRegister.requestFocus();
 			 validated = false;
 		 }
 		 return validated;

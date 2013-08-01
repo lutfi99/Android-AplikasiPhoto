@@ -3,24 +3,41 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#cccccc" >    
-
+    android:background="#cccccc" >
+    
     <Button
         android:id="@+id/buttonTakePhoto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Take Photo" />
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:background="#ff6600"
+        android:text="Take Photo"
+        android:textColor="#cccccc" />
 
     <Button
         android:id="@+id/buttonChooseLibrary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Choose from Library" />
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:background="#ff6600"
+        android:text="Choose from Library"
+        android:textColor="#cccccc" />
     
     <Button
         android:id="@+id/buttonTakePhotoFacebook"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Get Photo from Facebook" />
-
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:background="#ff6600"
+        android:text="Get Photo from Facebook"
+        android:textColor="#cccccc" />
 </LinearLayout>

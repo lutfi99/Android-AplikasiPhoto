@@ -13,7 +13,14 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.TranslateAnimation;
 import android.widget.TabHost;
+import android.widget.Toast;
+import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TabHost.TabSpec;
 
 @SuppressWarnings("deprecation")
@@ -21,11 +28,15 @@ public class Tab extends TabActivity{
 	SessionManager session;
 	final Context context = this;
 	TabHost tabHost;
+	int currentTab;
+	Animation anim;
+	
 	@SuppressLint("NewApi")
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tab);
+        
         
         ActionBar bar = getActionBar();
         bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#ff6600")));
@@ -40,6 +51,30 @@ public class Tab extends TabActivity{
         
         Resources res = getResources();
         tabHost = getTabHost();
+        
+        tabHost.setOnTabChangedListener(new OnTabChangeListener() {
+            public void onTabChanged(String tabId)
+            {
+                   View currentView = tabHost.getCurrentView();
+//                   int currentTab = 0;
+                   anim = AnimationUtils.loadAnimation(Tab.this, R.anim.bounce);
+                   
+				if (tabHost.getCurrentTab() > currentTab)
+                   {
+                       currentView.setAnimation( inFromRightAnimation() );
+//                       currentView.setAnimation(anim);
+                   }
+//                else if(currentTab == 1)
+//                   {
+//                	   currentView.setAnimation(anim);
+//                   }
+                else{
+                	currentView.setAnimation( outToRightAnimation() );
+                }
+
+                currentTab = getTabHost().getCurrentTab();
+            }
+       });
         
         // Tab for Profile
         TabSpec profile = tabHost.newTabSpec("Profile");
@@ -74,6 +109,17 @@ public class Tab extends TabActivity{
         tabHost.addTab(photo);
         tabHost.addTab(profile);
 //        tabHost.setCurrentTab(2);
+        
+
+//        tabHost.setOnTabChangedListener(new OnTabChangeListener() {
+//			
+//			@Override
+//			public void onTabChanged(String tabId) {
+//				// TODO Auto-generated method stub
+//				View currentView = tabHost.getCurrentView();
+//		        currentView.setAnimation(R.anim.bounce);
+//			}
+//		});
     }
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -118,7 +164,29 @@ public class Tab extends TabActivity{
 			return true;
 		}
 	}
-	
+	public Animation inFromRightAnimation()
+	{
+	    Animation inFromRight = new TranslateAnimation(
+	            Animation.RELATIVE_TO_PARENT, +1.0f,
+	            Animation.RELATIVE_TO_PARENT, 0.0f,
+	            Animation.RELATIVE_TO_PARENT, 0.0f,
+	            Animation.RELATIVE_TO_PARENT, 0.0f);
+	    inFromRight.setDuration(240);
+	    inFromRight.setInterpolator(new AccelerateInterpolator());
+	    return inFromRight;
+	}
+
+	public Animation outToRightAnimation()
+	{
+	    Animation outtoLeft = new TranslateAnimation(
+	            Animation.RELATIVE_TO_PARENT, -1.0f,
+	            Animation.RELATIVE_TO_PARENT, 0.0f,
+	            Animation.RELATIVE_TO_PARENT, 0.0f,
+	            Animation.RELATIVE_TO_PARENT, 0.0f);
+	    outtoLeft.setDuration(240);
+	    outtoLeft.setInterpolator(new AccelerateInterpolator());
+	    return outtoLeft;
+	}
 	public TabHost getMyTabHost() { 
 		return tabHost; }
 	

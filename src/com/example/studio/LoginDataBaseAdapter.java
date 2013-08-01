@@ -128,7 +128,7 @@ public class LoginDataBaseAdapter {
 		//email tidak ada
 		if(cursor.getCount()<1) {
 			cursor.close();
-			return "NOT EXIST";
+			return "IS NOT EXIST";
 		}
 		cursor.moveToFirst();
 		String password = cursor.getString(cursor.getColumnIndex("PASSWORD"));

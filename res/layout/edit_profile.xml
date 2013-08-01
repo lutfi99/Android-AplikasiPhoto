@@ -5,10 +5,32 @@
     android:orientation="vertical"
     android:background="#cccccc" >
 
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/logo" />
+    
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginTop="20dp"
+    android:background="#FFFFFF"
+    android:orientation="vertical" >
+
     <EditText
         android:id="@+id/editTextNameEdit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="#00000000"
         android:ems="10"
         android:hint="Name" >
 
@@ -18,36 +40,56 @@
         android:id="@+id/editTextEmailEdit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="#00000000"
         android:ems="10"
         android:hint="Email"
         android:inputType="textEmailAddress" >
 
     </EditText>
+
     <EditText
         android:id="@+id/editTextPhoneEdit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="#00000000"
         android:ems="10"
         android:hint="Phone"
         android:inputType="phone" >
-    </EditText>
 
-    <View
-        android:layout_height="2dip"
-        android:background="#b0b0b0"
-        android:layout_width="match_parent" />
+    </EditText>
+    </LinearLayout>
     
     <Button
         android:id="@+id/buttonChangePassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Change Password" />
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="#ff6600"
+        android:text="Change Password"
+        android:textColor="#cccccc" />
     
     <Button
         android:id="@+id/buttonSaveChange"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:text="Save" />
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="#ff6600"
+        android:text="Save"
+        android:textColor="#cccccc" />
 
 </LinearLayout>

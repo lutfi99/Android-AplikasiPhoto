@@ -1,10 +1,14 @@
 package com.example.studio;
 
+import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.DialogInterface.OnCancelListener;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -12,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+@SuppressLint("NewApi")
 public class EditProfile extends Activity {
 	
 	private static final int DIALOG_LOADING = 0;
@@ -25,6 +30,10 @@ public class EditProfile extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.edit_profile);
 		
+		ActionBar bar = getActionBar();
+        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#ff6600")));
+        bar.setIcon(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
+        
 		editTextNameEdit = (EditText) findViewById (R.id.editTextNameEdit);
 		editTextEmailEdit = (EditText) findViewById (R.id.editTextEmailEdit);
 		editTextPhoneEdit = (EditText) findViewById (R.id.editTextPhoneEdit);
@@ -134,19 +143,23 @@ public class EditProfile extends Activity {
 		 boolean validated = true;
 		 
 		 if (!Validate.hasText(editTextNameEdit)){
-			 Toast.makeText(getApplicationContext(), "name is empty", Toast.LENGTH_SHORT).show();
+			 editTextNameEdit.setError( "Name is required!" );
+			 editTextNameEdit.requestFocus();
 			 validated = false;
-		 }
+		 }else
 		 if (!Validate.hasText(editTextEmailEdit)){
-			 Toast.makeText(getApplicationContext(), "email is empty", Toast.LENGTH_SHORT).show();
+			 editTextEmailEdit.setError( "Email is required!" );
+			 editTextEmailEdit.requestFocus();
 			 validated = false;
-		 }
+		 }else
 		 if (!Validate.hasText(editTextPhoneEdit)){
-			 Toast.makeText(getApplicationContext(), "phone is empty", Toast.LENGTH_SHORT).show();
+			 editTextPhoneEdit.setError( "Phone is required!" );
+			 editTextPhoneEdit.requestFocus();
 			 validated = false;
-		 }
+		 }else
 		 if (!Validate.isEmailAddress(editTextEmailEdit, false)){
 			 Toast.makeText(getApplicationContext(), "email is not valid", Toast.LENGTH_SHORT).show();
+			 editTextEmailEdit.requestFocus();
 			 validated = false;
 		 }
 		 return validated;

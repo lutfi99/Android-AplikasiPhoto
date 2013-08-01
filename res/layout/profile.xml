@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:background="#ffffff" >
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -13,8 +14,10 @@
             android:id="@+id/imageViewPhoto"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:src="@drawable/profile_photo" 
-            android:padding="5dp"/>
+            android:layout_marginLeft="2dp"
+            android:background="#cccccc"
+            android:padding="5dp"
+            android:src="@drawable/profile_photo" />
 
 	<LinearLayout
 	    android:layout_width="match_parent"
@@ -23,8 +26,11 @@
 
         <TextView
             android:id="@+id/textViewUserName"
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="50dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:background="#cccccc"
             android:paddingLeft="10dp"
             android:paddingTop="15dp"
             android:textSize="25sp" />
@@ -33,26 +39,25 @@
             android:id="@+id/buttonEditProfile"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:text="Edit Your Profile"
-            android:layout_marginTop="5dp" />
+            android:layout_marginTop="2dp"
+            android:gravity="left|center_vertical"
+            android:text="Edit Your Profile" />
 
     </LinearLayout>
     
 </LinearLayout>
 
-	<View
-	        android:layout_height="2dip"
-	        android:background="#FF0000"
-	        android:layout_width="match_parent" />
-
 <GridView
     android:id="@+id/grid_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="20dp"
+    android:layout_alignParentBottom="true"
+    android:layout_below="@+id/image_container"
+    android:layout_centerHorizontal="true"
+    android:layout_marginBottom="10dp"
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
-    android:layout_marginTop="20dp"
+    android:layout_marginTop="10dp"
     android:columnWidth="90dp"
     android:gravity="center"
     android:horizontalSpacing="20dp"
@@ -62,4 +67,30 @@
 
 </GridView>
 
-</LinearLayout>
+<View
+    android:layout_width="match_parent"
+    android:layout_height="2dip"
+    android:layout_alignParentLeft="true"
+    android:layout_below="@+id/image_container"
+    android:background="#ff6600" />
+
+<ImageView
+    android:id="@+id/bounceImage"
+    android:layout_width="200dp"
+    android:layout_height="200dp"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentTop="true"
+    android:layout_marginTop="61dp"
+    android:src="@drawable/paper" />
+<ImageView
+    android:id="@+id/bounceHome"
+    android:layout_width="50dp"
+    android:layout_height="50dp"
+    android:layout_alignLeft="@+id/grid_view"
+    android:layout_alignTop="@+id/bounceImage"
+    android:layout_marginLeft="45dp"
+    android:layout_marginTop="40dp"
+    android:src="@drawable/home1" />
+
+
+</RelativeLayout>

@@ -18,6 +18,8 @@
         android:id="@+id/buttonGetPhotoFacebook"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:text="Get Photo" />
+        android:text="Get Photo"
+            android:background="#ff6600"
+            android:textColor="#cccccc" />
 
 </LinearLayout>

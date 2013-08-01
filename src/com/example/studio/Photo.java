@@ -114,7 +114,7 @@ public class Photo extends Activity {
 				// TODO Auto-generated method stub
 				
 				Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
+				
 				photo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),  "lutfi_" + System.currentTimeMillis() + ".jpg");
 				
 				intent.putExtra(MediaStore.EXTRA_OUTPUT,
@@ -134,6 +134,7 @@ public class Photo extends Activity {
 				intent.addCategory(Intent.CATEGORY_OPENABLE);
 
 				intent.setType("image/*");
+				
 
 				startActivityForResult( intent, ACTION_REQUEST_GALLERY );
 			}
@@ -328,15 +329,15 @@ public class Photo extends Activity {
 			getWindowManager().getDefaultDisplay().getMetrics( metrics );
 			int max_size = Math.max( metrics.widthPixels, metrics.heightPixels );
 			max_size = (int) ( (float) max_size / 1.2f );
-			
+
 			newIntent.putExtra( Constants.EXTRA_MAX_IMAGE_SIZE, max_size );
 			newIntent.putExtra( Constants.EXTRA_IN_SAVE_ON_NO_CHANGES, true );
-			
+
 			startActivityForResult( newIntent, PHOTO_FEATHER );
 		}
 		else if(requestCode == ACTION_REQUEST_GALLERY && resultCode == Activity.RESULT_OK){
 			u = data.getData();
-
+			
 			if ( !isExternalStorageAvilable() ) {
 				showDialog( EXTERNAL_STORAGE_UNAVAILABLE );
 				return;
@@ -368,6 +369,7 @@ public class Photo extends Activity {
 			
 			u = data.getData();
 			u = Uri.parse(u.toString());
+			
             try {
                 bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(u));
                 savePhotoDBPhoto();
